@@ -54,6 +54,61 @@
     html.dark .tts-hover-active {
         outline-color: #60a5fa !important;
     }
+
+    /* Accessibility Utilities - Core Logic */
+    .accessibility-grayscale {
+        filter: grayscale(100%) !important;
+    }
+
+    .accessibility-high-contrast {
+        background: #000 !important;
+        color: #fff !important;
+    }
+
+    .accessibility-high-contrast *:not(.acc-widget):not(.acc-widget *) {
+        background-color: #000 !important;
+        color: #ffff00 !important;
+        border-color: #ffff00 !important;
+        box-shadow: none !important;
+    }
+
+    .accessibility-high-contrast a:not(.acc-btn) {
+        color: #00ffff !important;
+        text-decoration: underline !important;
+    }
+
+    .accessibility-font-plus {
+        font-size: 1.25rem !important;
+    }
+
+    .accessibility-font-plus h1 { font-size: 3.5rem !important; }
+    .accessibility-font-plus h2 { font-size: 3rem !important; }
+    .accessibility-font-plus h3 { font-size: 2.5rem !important; }
+    .accessibility-font-plus p, 
+    .accessibility-font-plus span, 
+    .accessibility-font-plus li, 
+    .accessibility-font-plus a:not(.acc-btn) {
+        font-size: 1.2em !important;
+    }
+
+    .accessibility-link-highlight a:not(.acc-btn) {
+        text-decoration: underline !important;
+        font-weight: 800 !important;
+        background-color: yellow !important;
+        color: black !important;
+        padding: 0 2px;
+    }
+
+    .accessibility-legible-font *:not(.fa):not(.fas):not(.far):not(.fab) {
+        font-family: 'Arial', 'Helvetica', 'Open Sans', sans-serif !important;
+    }
+    
+    /* Ensure widget stays readable in high contrast */
+    .accessibility-high-contrast .acc-btn.active {
+        background-color: #ffff00 !important;
+        color: #000 !important;
+        border: 2px solid #fff !important;
+    }
 </style>
 
 <script>
