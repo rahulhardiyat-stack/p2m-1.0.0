@@ -9,7 +9,7 @@
     background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1a56a0 100%);
     position: relative;
     overflow: hidden;
-    padding: 120px 0 80px;
+    padding: 120px 0 120px;
 }
 .faq-hero::before {
     content: '';
@@ -19,66 +19,141 @@
 .hero-deco {
     position: absolute; right: 0; top: 50%;
     transform: translateY(-50%);
-    font-size: 18rem;
-    opacity: .04;
+    font-size: 20rem;
+    opacity: .03;
     color: #fff;
     pointer-events: none;
 }
 
-/* ── FAQ STYLES ── */
+/* ── FAQ CONTAINER ── */
 .faq-container {
-    padding: 4rem 0;
+    padding: 0 0 5rem;
     background: #f8fafc;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 24px 24px;
 }
+
+/* ── SEARCH AREA ── */
+.faq-search-wrapper {
+    position: relative;
+    max-width: 650px;
+    margin: -3.5rem auto 3rem;
+    z-index: 10;
+}
+.faq-search-wrapper input {
+    width: 100%;
+    padding: 1.25rem 1.75rem 1.25rem 3.5rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08), 0 5px 15px rgba(0,0,0,0.03);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background: #fff;
+    color: #334155;
+}
+.faq-search-wrapper input:focus {
+    outline: none;
+    box-shadow: 0 20px 40px rgba(26,86,160,0.12), 0 0 0 4px rgba(26,86,160,0.1);
+    border-color: #1a56a0;
+}
+.faq-search-wrapper i.search-icon {
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+}
+.faq-search-wrapper input:focus + i.search-icon {
+    color: #1a56a0;
+}
+
+/* ── ACCORDION ── */
 .faq-accordion .card {
     border: none;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,.04);
+    border-radius: 16px;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,.03);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: #fff;
+    overflow: hidden;
+}
+.faq-accordion .card:hover {
+    box-shadow: 0 12px 30px rgba(26,86,160,.08);
+    transform: translateY(-3px);
 }
 .faq-accordion .card-header {
-    background: #fff;
-    border-radius: 12px !important;
+    background: transparent;
     border: none;
     padding: 0;
 }
 .faq-accordion .btn-link {
     width: 100%;
     text-align: left;
-    padding: 1.25rem 1.5rem;
+    padding: 1.5rem 1.75rem;
     color: #1e293b;
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-weight: 700;
+    font-size: 1.15rem;
     text-decoration: none;
-    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
 }
-.faq-accordion .btn-link:focus { box-shadow: none; }
-.faq-accordion .btn-link[aria-expanded="true"] { color: #1a56a0; }
-.faq-accordion .btn-link .icon {
-    font-size: 1.25rem;
-    color: #64748b;
-    transition: transform .3s;
+.faq-accordion .btn-link:focus { box-shadow: none; outline: none; }
+.faq-accordion .btn-link:not(.collapsed) { 
+    color: #1a56a0; 
+    border-left-color: #1a56a0;
+    background: linear-gradient(90deg, rgba(26,86,160,0.03) 0%, transparent 100%);
 }
-.faq-accordion .btn-link[aria-expanded="true"] .icon {
+.faq-accordion .icon-wrapper {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+.faq-accordion .btn-link:not(.collapsed) .icon-wrapper {
+    background: #1a56a0;
+    color: white;
     transform: rotate(180deg);
-    color: #1a56a0;
+}
+.faq-accordion .btn-link.collapsed .icon-wrapper i {
+    color: #64748b;
+    transition: color 0.3s ease;
 }
 .faq-accordion .card-body {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0 1.75rem 1.75rem 1.75rem;
     color: #475569;
-    line-height: 1.7;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    border-left: 4px solid #1a56a0;
+    background: linear-gradient(90deg, rgba(26,86,160,0.03) 0%, transparent 100%);
 }
 
+.no-results {
+    display: none;
+    text-align: center;
+    padding: 3rem 1rem;
+}
+.no-results i {
+    font-size: 3rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
 </style>
 @endpush
 
 @section('content')
 
 {{-- ── HERO ── --}}
-<div class="page-header-premium py-5 text-white position-relative overflow-hidden">
+<div class="page-header-premium py-5 text-white position-relative overflow-hidden" style="padding-bottom: 7rem !important;">
     <div class="page-header-pattern"></div>
     <div class="container py-4 position-relative z-1">
         <div class="row align-items-center">
@@ -90,7 +165,7 @@
                     </ol>
                 </nav>
                 <h1 class="display-4 fw-bold mb-0">Frequently Asked Questions</h1>
-                <p class="lead mt-3">{{ __('Pertanyaan yang sering diajukan seputar program studi kami.') }}</p>
+                <p class="lead mt-3">{{ __('Temukan jawaban untuk pertanyaan yang sering diajukan seputar program studi kami.') }}</p>
             </div>
         </div>
     </div>
@@ -109,8 +184,17 @@
 {{-- ── FAQs ── --}}
 <section class="faq-container">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8" data-aos="fade-up">
+        
+        {{-- Live Search Box --}}
+        @if(!$faqs->isEmpty())
+        <div class="faq-search-wrapper" data-aos="fade-up" data-aos-delay="100">
+            <input type="text" id="faqSearchInput" placeholder="Cari pertanyaan Anda di sini..." autocomplete="off">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        @endif
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-9" data-aos="fade-up" data-aos-delay="200">
                 @if($faqs->isEmpty())
                     <div class="text-center py-5">
                         <i class="fas fa-question-circle fa-4x text-muted mb-3" style="opacity: .2;"></i>
@@ -119,12 +203,14 @@
                 @else
                     <div class="accordion faq-accordion" id="faqAccordion">
                         @foreach($faqs as $faq)
-                            <div class="card">
+                            <div class="card faq-item" data-question="{{ strtolower($faq->question) }}" data-answer="{{ strtolower(strip_tags($faq->answer)) }}">
                                 <div class="card-header" id="faqHeading{{ $faq->id }}">
                                     <h2 class="mb-0">
                                         <button class="btn btn-link {{ $loop->first ? '' : 'collapsed' }}" type="button" data-toggle="collapse" data-target="#faqCollapse{{ $faq->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="faqCollapse{{ $faq->id }}">
-                                            {{ $faq->question }}
-                                            <i class="fas fa-chevron-down icon"></i>
+                                            <span>{{ $faq->question }}</span>
+                                            <div class="icon-wrapper">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
                                         </button>
                                     </h2>
                                 </div>
@@ -137,6 +223,12 @@
                             </div>
                         @endforeach
                     </div>
+
+                    <div class="no-results" id="noResultsBlock">
+                        <i class="fas fa-search-minus"></i>
+                        <h5>Tidak ada hasil yang ditemukan.</h5>
+                        <p class="text-muted">Coba gunakan kata kunci pencarian yang lain.</p>
+                    </div>
                 @endif
             </div>
         </div>
@@ -144,3 +236,38 @@
 </section>
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('faqSearchInput');
+        const faqItems = document.querySelectorAll('.faq-item');
+        const noResultsBlock = document.getElementById('noResultsBlock');
+
+        if(searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                let hasResults = false;
+
+                faqItems.forEach(item => {
+                    const question = item.getAttribute('data-question');
+                    const answer = item.getAttribute('data-answer');
+                    
+                    if (question.includes(query) || answer.includes(query)) {
+                        item.style.display = 'block';
+                        hasResults = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                if (hasResults) {
+                    noResultsBlock.style.display = 'none';
+                } else {
+                    noResultsBlock.style.display = 'block';
+                }
+            });
+        }
+    });
+</script>
+@endpush
