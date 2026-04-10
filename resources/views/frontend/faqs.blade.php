@@ -206,7 +206,7 @@
                             <div class="card faq-item" data-question="{{ strtolower($faq->question) }}" data-answer="{{ strtolower(strip_tags($faq->answer)) }}">
                                 <div class="card-header" id="faqHeading{{ $faq->id }}">
                                     <h2 class="mb-0">
-                                        <button class="btn btn-link {{ $loop->first ? '' : 'collapsed' }}" type="button" data-toggle="collapse" data-target="#faqCollapse{{ $faq->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="faqCollapse{{ $faq->id }}">
+                                        <button class="btn btn-link {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse{{ $faq->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="faqCollapse{{ $faq->id }}">
                                             <span>{{ $faq->question }}</span>
                                             <div class="icon-wrapper">
                                                 <i class="fas fa-chevron-down"></i>
@@ -215,7 +215,7 @@
                                     </h2>
                                 </div>
 
-                                <div id="faqCollapse{{ $faq->id }}" class="collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="faqHeading{{ $faq->id }}" data-parent="#faqAccordion">
+                                <div id="faqCollapse{{ $faq->id }}" class="collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="faqHeading{{ $faq->id }}" data-bs-parent="#faqAccordion">
                                     <div class="card-body">
                                         {!! nl2br(e($faq->answer)) !!}
                                     </div>
