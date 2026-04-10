@@ -308,4 +308,15 @@ return [
     'search_research_services' => 'Cari data...',
     'type_research' => 'Penelitian',
     'type_community_service' => 'Pengabdian Masyarakat',
+
+    // FAQs
+    'faqs' => 'FAQs',
+    'add_faq' => 'Tambah FAQ',
+    'edit_faq' => 'Edit FAQ',
+    'faq_question' => 'Pertanyaan',
+    'faq_answer' => 'Jawaban',
+    'faq_order' => 'Urutan',
+    'no_faqs' => 'Tidak ada FAQ ditemukan.',
+    'save_faq' => 'Simpan FAQ',
+    'search_faqs' => 'Cari pertanyaan FAQ...',
 ];

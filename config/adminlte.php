@@ -104,6 +104,7 @@ return [
         ['text' => 'Layanan Akademik', 'url' => 'admin/academic-services', 'icon' => 'fas fa-laptop-house', 'can' => 'view events'],
         ['text' => 'Penelitian & Pengabdian', 'url' => 'admin/research-services', 'icon' => 'fas fa-microscope', 'can' => 'view events'],
         ['text' => 'Dokumen', 'url' => 'admin/documents', 'icon' => 'fas fa-folder-open', 'can' => 'view documents'],
+        ['text' => 'FAQs', 'url' => 'admin/faqs', 'icon' => 'fas fa-question-circle', 'can' => 'view pages'],
 
         ['header' => 'SISTEM'],
         [

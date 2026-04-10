@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\GalleryController as FrontGalleryController;
 use App\Http\Controllers\Frontend\PageController as FrontFrontPageController;
 use App\Http\Controllers\Frontend\FrontPageController as FrontInfoPageController;
 use App\Http\Controllers\Frontend\DocumentController as FrontDocumentController;
+use App\Http\Controllers\Frontend\FaqController as FrontFaqController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController;
@@ -35,6 +36,7 @@ use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\ResearchServiceController;
 use App\Http\Controllers\Admin\SponsorController;
+use App\Http\Controllers\Admin\FaqController;
 
 /* |-------------------------------------------------------------------------- | Admin Panel Routes (Protected) |-------------------------------------------------------------------------- */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', \App\Http\Middleware\AdminLocale::class])->group(function () {
@@ -85,6 +87,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', \App\Htt
     // Documents
     Route::resource('documents', DocumentController::class);
     Route::get('documents/{document}/download', [DocumentController::class , 'download'])->name('documents.download');
+
+    // FAQs
+    Route::resource('faqs', FaqController::class);
 
     // Gallery
     Route::resource('gallery', GalleryController::class);
@@ -200,6 +205,9 @@ Route::group([
     // Documents
     Route::get('/dokumen', [FrontDocumentController::class, 'index'])->name('documents');
     Route::get('/dokumen/{id}/download', [DocumentController::class , 'publicDownload'])->name('documents.public-download');
+
+    // FAQs
+    Route::get('/faqs', [FrontFaqController::class, 'index'])->name('faqs.index');
 
     // Captcha Route
     Route::get('/captcha', [\App\Http\Controllers\CaptchaController::class, 'generate'])->name('captcha.generate');
