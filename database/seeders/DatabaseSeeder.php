@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             DocumentCategorySeeder::class,
             SampleDataSeeder::class,
+            FaqSeeder:class,
         ]);
     }
 }
