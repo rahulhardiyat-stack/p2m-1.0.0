@@ -74,6 +74,7 @@ class MenuController extends Controller
             ['title' => 'Agenda / Event', 'url' => '/agenda'],
             ['title' => 'Galleri Foto', 'url' => '/galeri'],
             ['title' => 'Arsip Dokumen', 'url' => '/dokumen'],
+            ['title' => 'FAQs', 'url' => '/faqs'],
             ['title' => 'Kontak', 'url' => '/kontak'],
         ];
 
