@@ -111,6 +111,8 @@
             promotion: false,
             branding: false,
             images_upload_url: '{{ route("admin.media.upload") }}',
+            relative_urls: false,
+            remove_script_host: false,
             file_picker_types: 'image',
             file_picker_callback: function (cb, value, meta) {
                 if (meta.filetype === 'image') {

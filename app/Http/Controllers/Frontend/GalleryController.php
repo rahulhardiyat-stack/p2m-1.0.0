@@ -19,7 +19,7 @@ class GalleryController extends Controller
             $query->where('type', 'photo');
         }
 
-        $items = $query->orderBy('order')->paginate(16)->withQueryString();
+        $items = $query->orderBy('order')->latest()->paginate(16)->withQueryString();
 
         return view('frontend.gallery.index', compact('items'));
     }

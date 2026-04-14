@@ -295,17 +295,42 @@ $(document).ready(function() {
 
 // Helper for deletion from within picker
 function deleteMediaFromPicker(id) {
+    if(!id) return;
+    
     if(confirm('PERINGATAN: Gambar ini akan dihapus secara permanen dari server dan tidak dapat ditampilkan lagi di situs. Lanjutkan?')) {
         let deleteUrl = "{{ route('admin.media.destroy', ['media' => ':id']) }}".replace(':id', id);
+        
+        // Disable the button to prevent multiple clicks
+        const $btn = $('.delete-media-btn');
+        const originalText = $btn.text();
+        $btn.text('Menghapus...').addClass('disabled').css('pointer-events', 'none');
+        
         $.ajax({
             url: deleteUrl,
-            type: 'DELETE',
-            data: { _token: '{{ csrf_token() }}' },
-            success: function() {
-                window.loadMedia();
+            type: 'POST', // Use POST with _method DELETE for better compatibility
+            data: { 
+                _token: '{{ csrf_token() }}',
+                _method: 'DELETE'
             },
-            error: function() {
-                alert('Terjadi kesalahan saat menghapus media.');
+            dataType: 'json',
+            success: function(resp) {
+                if (resp.success) {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success(resp.message || 'Media berhasil dihapus.');
+                    } else {
+                        alert(resp.message || 'Media berhasil dihapus.');
+                    }
+                    window.loadMedia();
+                } else {
+                    alert('Gagal: ' + (resp.message || 'Terjadi kesalahan.'));
+                    $btn.text(originalText).removeClass('disabled').css('pointer-events', 'auto');
+                }
+            },
+            error: function(xhr) {
+                let msg = 'Terjadi kesalahan saat menghapus media.';
+                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                alert(msg);
+                $btn.text(originalText).removeClass('disabled').css('pointer-events', 'auto');
             }
         });
     }

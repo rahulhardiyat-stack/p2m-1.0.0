@@ -63,7 +63,9 @@ class MediaController extends Controller
 
         foreach ($files as $file) {
             $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $storePath = 'media/' . ltrim($folder, '/');
+            $mediaFolder = ltrim($folder, '/');
+            $storePath = 'media' . ($mediaFolder ? '/' . $mediaFolder : '');
+            $path = "{$storePath}/{$filename}";
 
             // Compress images before storing
             if (str_starts_with($file->getMimeType(), 'image/')) {
@@ -74,7 +76,7 @@ class MediaController extends Controller
                     $image->scaleDown(1920, 1080);
                 }
 
-                $fullPath = storage_path("app/public/{$storePath}/{$filename}");
+                $fullPath = storage_path("app/public/{$path}");
                 if (!file_exists(dirname($fullPath))) {
                     mkdir(dirname($fullPath), 0755, true);
                 }
@@ -94,8 +96,8 @@ class MediaController extends Controller
                 'user_id' => auth()->id(),
                 'filename' => $filename,
                 'original_name' => $file->getClientOriginalName(),
-                'path' => "{$storePath}/{$filename}",
-                'url' => asset("storage/{$storePath}/{$filename}"),
+                'path' => $path,
+                'url' => asset("storage/{$path}"),
                 'folder' => $folder,
                 'mime_type' => $file->getMimeType(),
                 'extension' => $file->getClientOriginalExtension(),
@@ -103,6 +105,20 @@ class MediaController extends Controller
                 'width' => $width,
                 'height' => $height,
             ]);
+
+            // Auto-sync with Gallery for all images
+            if (str_starts_with($file->getMimeType(), 'image/')) {
+                \App\Models\Gallery::updateOrCreate(
+                    ['file_path' => $path],
+                    [
+                        'title' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME),
+                        'type' => 'photo',
+                        'album' => 'Imported',
+                        'is_active' => true,
+                        'language' => app()->getLocale(),
+                    ]
+                );
+            }
 
             $uploaded[] = $media;
             $urls[] = $media->url;
@@ -115,17 +131,42 @@ class MediaController extends Controller
             'message' => count($uploaded) . ' file berhasil diupload!',
         ]);
     }
-
     public function destroy(Media $media)
     {
-        Storage::disk('public')->delete($media->path);
-        $media->delete();
+        try {
+            $filePath = $media->path;
+            
+            // Delete from storage
+            if (Storage::disk('public')->exists($filePath)) {
+                Storage::disk('public')->delete($filePath);
+            }
+            
+            // Delete associated Gallery entries
+            \App\Models\Gallery::where('file_path', $filePath)
+                ->orWhere('file_path', 'storage/' . $filePath)
+                ->delete();
+            
+            // Delete DB record
+            $media->delete();
 
-        if (request()->expectsJson()) {
-            return response()->json(['success' => true]);
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Media berhasil dihapus secara permanen.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error("Error deleting media: " . $e->getMessage());
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Gagal menghapus media: ' . $e->getMessage()
+                ], 500);
+            }
+            return back()->with('error', 'Gagal menghapus media.');
         }
 
-        return back()->with('success', 'File berhasil dihapus!');
+        return back()->with('success', 'Media berhasil dihapus permanen.');
     }
 
     public function folder(Request $request)
@@ -214,11 +255,14 @@ class MediaController extends Controller
         }
 
         return response()->json([
-            'filename' => basename($cleanPath),
-            'url' => asset('storage/' . $cleanPath),
-            'size' => $size,
-            'dimensions' => $dimensions,
-            'mime' => $mime,
+            'id' => $item ? $item->id : null,
+            'filename' => $item ? $item->original_name : basename($cleanPath),
+            'url' => $item ? $item->url : asset('storage/' . $cleanPath),
+            'path' => $item ? $item->path : $cleanPath,
+            'size' => $item ? $item->size_formatted : $size,
+            'dimensions' => $item ? ($item->width . ' x ' . $item->height) : $dimensions,
+            'mime' => $item ? $item->mime_type : $mime,
+            'delete_url' => $item ? route('admin.media.destroy', $item->id) : null,
         ]);
     }
 }

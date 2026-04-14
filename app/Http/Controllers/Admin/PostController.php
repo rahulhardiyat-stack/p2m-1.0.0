@@ -62,6 +62,7 @@ class PostController extends Controller
             'seo_title' => 'nullable|string|max:60',
             'seo_description' => 'nullable|string|max:160',
             'seo_keywords' => 'nullable|string|max:255',
+            'language' => 'nullable|string|max:5',
         ]);
 
         $slug = Str::slug($validated['title']);
@@ -77,6 +78,7 @@ class PostController extends Controller
 
             'user_id' => auth()->id(),
             'slug' => $slug,
+            'language' => $request->language ?? 'id',
             'is_featured' => $request->boolean('is_featured'),
             'allow_comments' => $request->boolean('allow_comments', true),
             'published_at' => $published_at,
@@ -88,21 +90,15 @@ class PostController extends Controller
         ]);
 
         // Handle Image via HasMedia logic
+        \Illuminate\Support\Facades\Log::info("Post created: ID={$post->id}, Title={$post->title}");
         $path = $this->handleMedia('featured_image', 'posts', $post->title);
+        \Illuminate\Support\Facades\Log::info("handleMedia returned Path: " . ($path ?? 'NULL'));
+        
         if ($path) {
             $post->update(['featured_image' => $path]);
-
-            // Sync with Gallery (Public Album)
-            Gallery::updateOrCreate(
-                ['title' => $post->title, 'album' => 'Artikel'],
-                [
-                    'type' => 'photo',
-                    'file_path' => $path,
-                    'is_active' => true,
-                    'language' => $post->language ?? app()->getLocale(),
-                ]
-            );
+            $this->syncToGallery($post, $path, 'Imported');
         }
+
 
         if ($request->tags) {
             $tagIds = [];
@@ -218,15 +214,7 @@ class PostController extends Controller
 
                 // Create Gallery entry for featured image
                 if ($featuredImage) {
-                    Gallery::updateOrCreate(
-                        ['title' => $post->title, 'album' => 'Imported'],
-                        [
-                            'type' => 'photo',
-                            'file_path' => $featuredImage,
-                            'is_active' => true,
-                            'language' => app()->getLocale(),
-                        ]
-                    );
+                    $this->syncToGallery($post, $featuredImage, 'Imported');
                 }
 
                 $importedCount++;
@@ -291,17 +279,7 @@ class PostController extends Controller
 
         if ($path) {
             $postData['featured_image'] = $path;
-
-            // Sync with Gallery
-            Gallery::updateOrCreate(
-                ['title' => $validated['title'], 'album' => 'Artikel'],
-                [
-                    'type' => 'photo',
-                    'file_path' => $path,
-                    'is_active' => true,
-                    'language' => $post->language ?? app()->getLocale(),
-                ]
-            );
+            $this->syncToGallery($post->fill(['title' => $request->title]), $path, 'Imported');
         }
 
         $post->update($postData);
@@ -351,7 +329,7 @@ class PostController extends Controller
     {
         $original = $slug;
         $i = 1;
-        while ($model::where('slug', $slug)->exists()) {
+        while ($model::withTrashed()->where('slug', $slug)->exists()) {
             $slug = "{$original}-{$i}";
             $i++;
         }

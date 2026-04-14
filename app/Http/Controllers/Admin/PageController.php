@@ -73,16 +73,7 @@ class PageController extends Controller
         if ($path) {
             $page->featured_image = $path;
 
-            // Sync with Gallery
-            Gallery::updateOrCreate(
-                ['title' => $page->title, 'album' => 'Halaman'],
-                [
-                    'type' => 'photo',
-                    'file_path' => $path,
-                    'is_active' => true,
-                    'language' => $page->language ?? app()->getLocale(),
-                ]
-            );
+            $this->syncToGallery($page, $path, 'Halaman');
         }
 
         $page->save();
@@ -118,16 +109,7 @@ class PageController extends Controller
             }
             $page->featured_image = $path;
 
-            // Sync with Gallery
-            Gallery::updateOrCreate(
-                ['title' => $validated['title'], 'album' => 'Halaman'],
-                [
-                    'type' => 'photo',
-                    'file_path' => $path,
-                    'is_active' => true,
-                    'language' => $page->language ?? app()->getLocale(),
-                ]
-            );
+            $this->syncToGallery($page, $path, 'Halaman');
         }
 
         $page->title = $validated['title'];

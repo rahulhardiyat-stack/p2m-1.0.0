@@ -29,4 +29,11 @@ test_event.php
 tmp-sync-media.php
 tmp_count.txt
 tmp_create.txt
-tmp_menu_id.txt
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/storage/logs/*
+*.php.bak
+*.php~
+/scratch/

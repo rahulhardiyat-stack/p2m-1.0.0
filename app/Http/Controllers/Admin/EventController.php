@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Schema;
 
 class EventController extends Controller
 {
+    use \App\Traits\HasMedia;
     public function index(Request $request)
     {
         $query = Event::with('user')
@@ -94,10 +95,11 @@ class EventController extends Controller
                 ],
             ]);
 
-            if ($request->hasFile('featured_image')) {
-                Log::info('Storage File Upload Started');
-                $event->featured_image = $request->file('featured_image')->store('events', 'public');
-                Log::info('File stored at: ' . $event->featured_image);
+            // Handle Image via HasMedia logic
+            $path = $this->handleMedia('featured_image', 'events', $event->title);
+            if ($path) {
+                $event->featured_image = $path;
+                $this->syncToGallery($event, $path, 'Agenda & Kegiatan');
             }
 
             $event->save();
@@ -154,13 +156,14 @@ class EventController extends Controller
 
             Log::info('Event Update Validation Passed');
 
-            if ($request->hasFile('featured_image')) {
-                Log::info('Storage File Upload Started (Update)');
+            // Handle Image via HasMedia logic
+            $path = $this->handleMedia('featured_image', 'events', $validated['title']);
+            if ($path) {
                 if ($event->featured_image) {
                     Storage::disk('public')->delete($event->featured_image);
                 }
-                $validated['featured_image'] = $request->file('featured_image')->store('events', 'public');
-                Log::info('New file stored at: ' . $validated['featured_image']);
+                $validated['featured_image'] = $path;
+                $this->syncToGallery($event, $path, 'Agenda & Kegiatan');
             }
 
             $eventData = collect($validated)

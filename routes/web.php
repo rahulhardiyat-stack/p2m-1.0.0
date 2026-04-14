@@ -120,9 +120,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', \App\Htt
     Route::get('media/picker', [MediaController::class, 'picker'])->name('media.picker');
     Route::get('media/json/{id}', [MediaController::class, 'json'])->name('media.json');
     Route::get('media/json-by-path', [MediaController::class, 'jsonByPath'])->name('media.json-by-path');
-    Route::resource('media', MediaController::class);
+    Route::resource('media', MediaController::class)->parameters([
+        'media' => 'media'
+    ]);
     Route::get('media/folders', [MediaController::class, 'folder'])->name('media.folder');
-    Route::delete('media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 
     // Infographics
     Route::resource('infographics', InfographicController::class);

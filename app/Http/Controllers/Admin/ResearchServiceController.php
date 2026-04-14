@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ResearchService;
 use App\Models\Media;
+use App\Traits\HasMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class ResearchServiceController extends Controller
 {
+    use HasMedia;
+
     public function index(Request $request)
     {
         $query = ResearchService::query()
@@ -41,6 +44,7 @@ class ResearchServiceController extends Controller
             'external_link' => 'nullable|url',
             'is_active' => 'boolean',
             'order' => 'nullable|integer',
+            'language' => 'nullable|string|max:10',
         ]);
 
         if ($request->hasFile('file_path')) {
@@ -51,7 +55,14 @@ class ResearchServiceController extends Controller
         $validated['slug'] = Str::slug($request->title);
         $validated['is_active'] = $request->boolean('is_active', true);
 
-        ResearchService::create($validated);
+        $research = ResearchService::create($validated);
+
+        // Handle Image via HasMedia logic
+        $path = $this->handleMedia('featured_image', 'research', $research->title);
+        if ($path) {
+            $research->update(['featured_image' => $path]);
+            $this->syncToGallery($research, $path, 'Riset & Pengabdian');
+        }
 
         return redirect()->route('admin.research-services.index')->with('success', 'Data berhasil ditambahkan!');
     }
@@ -74,6 +85,7 @@ class ResearchServiceController extends Controller
             'external_link' => 'nullable|url',
             'is_active' => 'boolean',
             'order' => 'nullable|integer',
+            'language' => 'nullable|string|max:10',
         ]);
 
         if ($request->hasFile('file_path')) {
@@ -86,6 +98,14 @@ class ResearchServiceController extends Controller
 
         $validated['is_active'] = $request->boolean('is_active', true);
         $researchService->update($validated);
+
+        // Handle Image via HasMedia logic
+        $path = $this->handleMedia('featured_image', 'research', $researchService->title);
+        if ($path) {
+            $researchService->update(['featured_image' => $path]);
+            $this->syncToGallery($researchService, $path, 'Riset & Pengabdian');
+        }
+
 
         return redirect()->route('admin.research-services.index')->with('success', 'Data berhasil diperbarui!');
     }

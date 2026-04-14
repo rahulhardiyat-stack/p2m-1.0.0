@@ -37,8 +37,10 @@ trait HasMedia
     protected function uploadAndRegisterMedia(UploadedFile $file, string $folder = 'uploads', string $title = 'Media File')
     {
         $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-        $storePath = 'media/' . ltrim($folder, '/');
-        
+        $mediaFolder = ltrim($folder, '/');
+        $storePath = 'media' . ($mediaFolder ? '/' . $mediaFolder : '');
+        $path = "{$storePath}/{$filename}";
+
         $imageManager = new ImageManager(new Driver());
         
         // Compress images
@@ -48,7 +50,7 @@ trait HasMedia
                 $image->scaleDown(1920, 1080);
             }
 
-            $fullPath = storage_path("app/public/{$storePath}/{$filename}");
+            $fullPath = storage_path("app/public/{$path}");
             if (!file_exists(dirname($fullPath))) {
                 mkdir(dirname($fullPath), 0755, true);
             }
@@ -62,8 +64,6 @@ trait HasMedia
             $width = null;
             $height = null;
         }
-
-        $path = "{$storePath}/{$filename}";
 
         Media::create([
             'user_id' => auth()->id(),
@@ -80,5 +80,35 @@ trait HasMedia
         ]);
 
         return $path;
+    }
+
+    /**
+     * Sync a model's featured image to the Gallery table
+     */
+    protected function syncToGallery($model, ?string $path, string $album = 'Imported')
+    {
+        if (!$path) return null;
+
+        // Ensure we are using a relative path if it's a local storage URL
+        $cleanPath = $path;
+        $storageUrl = asset('storage/');
+        if (str_starts_with($path, $storageUrl)) {
+            $cleanPath = str_replace($storageUrl, '', $path);
+        }
+
+        \Illuminate\Support\Facades\Log::info("Syncing to gallery: Path={$cleanPath}, Title=" . ($model->title ?? $model->name ?? 'Media Artikel'));
+
+        return \App\Models\Gallery::updateOrCreate(
+            [
+                'file_path' => $cleanPath, 
+                'title' => $model->title ?? $model->name ?? 'Media Artikel'
+            ],
+            [
+                'album' => $album,
+                'type' => 'photo',
+                'is_active' => true,
+                'language' => $model->language ?? app()->getLocale(),
+            ]
+        );
     }
 }
