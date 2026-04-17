@@ -1,4 +1,5 @@
-<footer class="py-5">
+<footer class="aurora-footer py-5 position-relative overflow-hidden">
+    <div class="footer-wave-container"></div>
     <div class="container">
         <div class="row g-4">
             {{-- Brand & About --}}

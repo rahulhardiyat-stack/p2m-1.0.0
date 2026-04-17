@@ -157,4 +157,27 @@ class GalleryController extends Controller
 
         return back()->with('success', 'Item galeri berhasil dihapus!');
     }
+
+    public function massDestroy(Request $request)
+    {
+        if (!auth()->user()->hasRole(['Super Admin', 'Admin Prodi'])) {
+            abort(403, 'Aksi ini hanya untuk Super Admin dan Admin.');
+        }
+
+        $ids = $request->ids;
+        if (empty($ids)) {
+            return back()->with('error', 'Pilih item galeri yang ingin dihapus!');
+        }
+
+        $items = Gallery::whereIn('id', $ids)->get();
+
+        foreach ($items as $item) {
+            if ($item->file_path) {
+                Storage::disk('public')->delete($item->file_path);
+            }
+            $item->delete();
+        }
+
+        return back()->with('success', count($ids) . ' item galeri berhasil dihapus masal!');
+    }
 }

@@ -20,6 +20,11 @@
             margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
             font-family: 'Outfit', sans-serif;
         }
+        /* Hide Google Translate top bar/arrow */
+        .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+        iframe.skiptranslate { display: none !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
         {{-- Aggressive Fullscreen Background Fix --}}
         body::before {
             content: "";

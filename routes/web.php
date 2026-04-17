@@ -46,6 +46,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', \App\Htt
 
     // Posts / Articles
     Route::post('posts/import', [PostController::class , 'import'])->name('posts.import');
+    Route::delete('posts/mass-destroy', [PostController::class , 'massDestroy'])->name('posts.mass-destroy');
     Route::resource('posts', PostController::class);
     Route::patch('posts/{post}/toggle-status', [PostController::class , 'toggleStatus'])->name('posts.toggle-status');
 
@@ -92,6 +93,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', \App\Htt
     Route::resource('faqs', FaqController::class);
 
     // Gallery
+    Route::delete('gallery/mass-destroy', [GalleryController::class , 'massDestroy'])->name('gallery.mass-destroy');
     Route::resource('gallery', GalleryController::class);
 
     // Sliders / Banners

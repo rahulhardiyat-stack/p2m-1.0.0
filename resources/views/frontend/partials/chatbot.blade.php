@@ -1,10 +1,10 @@
 <button class="chatbot-toggle" onclick="document.querySelector('.chatbot-window').classList.toggle('open')" title="{{ __('menu.chatbot_title') }}">
-    <i class="fas fa-robot"></i>
+    <i class="fas fa-comment-dots"></i>
 </button>
 
 <div class="chatbot-window" id="chatbot">
     <div class="chatbot-header">
-        <span><i class="fas fa-robot me-2"></i>{{ __('menu.chatbot_assistant') }}</span>
+        <span><i class="fas fa-comment-dots me-2"></i>{{ __('menu.chatbot_assistant') }}</span>
         <button onclick="document.getElementById('chatbot').classList.remove('open')" class="btn p-0 text-white btn-sm">
             <i class="fas fa-times"></i>
         </button>

@@ -311,6 +311,22 @@ class PostController extends Controller
         return back()->with('success', 'Artikel berhasil dihapus!');
     }
 
+    public function massDestroy(Request $request)
+    {
+        if (!auth()->user()->hasRole(['Super Admin', 'Admin Prodi'])) {
+            abort(403, 'Aksi ini hanya untuk Super Admin dan Admin.');
+        }
+
+        $ids = $request->ids;
+        if (empty($ids)) {
+            return back()->with('error', 'Pilih minimal satu artikel untuk dihapus!');
+        }
+
+        Post::whereIn('id', $ids)->delete();
+
+        return back()->with('success', count($ids) . ' artikel berhasil dihapus masal!');
+    }
+
     public function show(Post $post)
     {
         return view('admin.posts.show', compact('post'));

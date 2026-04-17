@@ -205,49 +205,63 @@
 </section>
 @endif
 
-{{-- ── LEADER SAMBUTAN ── --}}
+{{-- ── LEADER SAMBUTAN (Aurora Premium Mod) ── --}}
 @if($greeting || $headName)
-<section class="py-5 bg-light">
+<section class="py-5 aurora-greeting-section" style="background: #fff; overflow:hidden;">
     <div class="container">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6" data-aos="fade-right">
-                <span class="section-label text-primary"><i class="fas fa-graduation-cap me-2"></i>{{ __('Sambutan Pimpinan') }}</span>
-                <div class="gradient-bar"></div>
+                <div class="aurora-greeting-card">
+                    <span class="aurora-tagline"><i class="fas fa-graduation-cap me-2"></i>{{ __('Sambutan Pimpinan') }}</span>
+                    <h2 class="aurora-greet-title mt-2 mb-4">Leadership <span class="text-primary">Vision</span></h2>
 
-                <div class="d-flex align-items-center gap-4 mb-4">
-                    @if($kaprodiPhoto)
-                    <div class="leader-photo-wrap">
-                        <img src="{{ asset('storage/'.$kaprodiPhoto) }}" alt="{{ $headName }}">
+                    <div class="d-flex align-items-center gap-4 mb-5">
+                        <div class="leader-avatar-premium">
+                            @if($kaprodiPhoto)
+                                <img src="{{ asset('storage/'.$kaprodiPhoto) }}" alt="{{ $headName }}">
+                            @else
+                                <div class="leader-placeholder-aurora">
+                                    <i class="fas fa-user-tie fa-2x"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <div>
+                            <h4 class="aurora-leader-name mb-1">{{ $headName }}</h4>
+                            <div class="aurora-leader-badge">
+                                <i class="fas fa-award me-1"></i>{{ __('Ketua Program Studi') }}
+                            </div>
+                        </div>
                     </div>
-                    @else
-                    <div class="leader-icon-placeholder">
-                        <i class="fas fa-user-tie fa-2x text-white"></i>
-                    </div>
-                    @endif
-                    <div>
-                        <h4 class="fw-bold mb-1 text-dark">{{ $headName }}</h4>
-                        <span class="text-primary fw-semibold small"><i class="fas fa-award me-1"></i>{{ __('Ketua Program Studi') }}</span>
+
+                    <div class="aurora-quote-box position-relative">
+                        <i class="fas fa-quote-left aurora-quote-icon"></i>
+                        <div class="aurora-quote-text lh-lg" style="text-align:justify;">
+                            {!! $greeting !!}
+                        </div>
+                        
+                        <div class="mt-4 pt-3">
+                            <a href="#" class="aurora-btn-link">
+                                {{ __('Selengkapnya') }} <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-
-                <blockquote class="border-start border-primary border-4 ps-4 text-secondary lh-lg" style="text-align:justify; font-size:1.05rem;">
-                    {!! $greeting !!}
-                </blockquote>
             </div>
 
             <div class="col-lg-6" data-aos="fade-left">
                 @if($videoEmbed)
-                <div class="video-frame-wrap">
-                    <div class="ratio ratio-16x9">
+                <div class="aurora-video-container">
+                    <div class="aurora-video-glow"></div>
+                    <div class="ratio ratio-16x9 aurora-video-frame">
                         <iframe src="{{ $videoEmbed }}" title="Video Profil" allowfullscreen frameborder="0"></iframe>
                     </div>
                 </div>
                 @else
-                <div class="about-card p-5 d-flex flex-column align-items-center justify-content-center text-center" style="min-height:280px;">
-                    <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#1a56a0,#60a5fa);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                <div class="about-card p-5 d-flex flex-column align-items-center justify-content-center text-center" style="min-height:350px; background: #f8fbff; border-radius: 30px;">
+                    <div class="icon-play-aurora mb-3">
                         <i class="fas fa-play fa-xl text-white"></i>
                     </div>
-                    <p class="text-muted mb-0">Video profil belum tersedia</p>
+                    <p class="text-muted fw-bold mb-0">Video Profil Segera Hadir</p>
                 </div>
                 @endif
             </div>

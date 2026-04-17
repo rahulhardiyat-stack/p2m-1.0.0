@@ -1,0 +1,254 @@
+/* ===============================================
+   OxfordPremium-BalaKutaK Theme - "ACADEMIC EXCELLENCE"
+   Inspired by: info.oxford-onlineprogrammes.getsmarter.com
+   Focus: Prestige, Trust, Knowledge, and Modernity
+   =============================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --ox-blue: #002147;
+    /* Oxford Blue */
+    --ox-gold: #c69214;
+    /* Oxford Gold */
+    --ox-gold-light: #e6b13a;
+    --ox-gold-dark: #a67912;
+    --text-main: #1e293b;
+    --text-light: #64748b;
+    --bg-white: #ffffff;
+    --bg-gray: #f8fafc;
+    --border-soft: 1px solid rgba(0, 33, 71, 0.1);
+    --shadow-premium: 0 10px 30px rgba(0, 33, 71, 0.08);
+}
+
+/* ========= GLOBAL REFINEMENTS ========= */
+body.theme-oxford-premium-balakutak {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-white);
+    line-height: 1.6;
+}
+
+.theme-oxford-premium-balakutak h1,
+.theme-oxford-premium-balakutak h2,
+.theme-oxford-premium-balakutak h3,
+.theme-oxford-premium-balakutak h4,
+.theme-oxford-premium-balakutak .elegant-brand-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--ox-blue);
+}
+
+/* ========= TOP MENU & NAVBAR ========= */
+.theme-oxford-premium-balakutak .top-menu-wrapper {
+    background: var(--ox-blue) !important;
+    border-bottom: 2px solid var(--ox-gold) !important;
+    padding: 0.6rem 0;
+}
+
+.theme-oxford-premium-balakutak .top-menu-link {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px !important;
+    color: rgba(255,255,255,0.9) !important;
+}
+
+.theme-oxford-premium-balakutak .top-menu-link:hover {
+    color: var(--ox-gold-light) !important;
+}
+
+.theme-oxford-premium-balakutak #main-navbar.elegant-navbar {
+    background: #FFF !important;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
+}
+
+.theme-oxford-premium-balakutak .elegant-brand-title {
+    color: var(--ox-blue) !important;
+    font-size: 1.6rem;
+    letter-spacing: -0.5px;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+}
+
+.theme-oxford-premium-balakutak .main-nav-link {
+    font-weight: 600 !important;
+    color: var(--ox-blue) !important;
+    text-transform: capitalize;
+    font-size: 1rem !important;
+}
+
+.theme-oxford-premium-balakutak .main-nav-link:hover,
+.theme-oxford-premium-balakutak .main-nav-link.active {
+    color: var(--ox-gold) !important;
+}
+
+.theme-oxford-premium-balakutak .main-nav-link::before {
+    background-color: var(--ox-gold);
+    height: 2px;
+}
+
+/* ========= HERO SECTION ========= */
+.theme-oxford-premium-balakutak .hero-section {
+    position: relative;
+}
+
+.theme-oxford-premium-balakutak .hero-swiper {
+    height: 75vh !important;
+}
+
+.theme-oxford-premium-balakutak .hero-slide {
+    height: 75vh !important;
+}
+
+.theme-oxford-premium-balakutak .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.theme-oxford-premium-balakutak .btn-primary {
+    background: var(--ox-gold) !important;
+    color: #FFF !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1.2rem 3rem !important;
+    box-shadow: 0 4px 15px rgba(198, 146, 20, 0.3) !important;
+    transition: all 0.3s ease;
+}
+
+.theme-oxford-premium-balakutak .btn-primary:hover {
+    background: var(--ox-gold-dark) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(198, 146, 20, 0.5) !important;
+}
+
+/* ========= STATS BAR ========= */
+.theme-oxford-premium-balakutak .stats-bar {
+    background-color: var(--ox-blue) !important;
+    border-top: 4px solid var(--ox-gold) !important;
+}
+
+.theme-oxford-premium-balakutak .stat-number {
+    color: var(--ox-gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+}
+
+/* ========= SECTIONS & CARDS ========= */
+.theme-oxford-premium-balakutak .section-badge {
+    color: var(--ox-gold) !important;
+    background: rgba(198, 146, 20, 0.05) !important;
+    border: 1px solid var(--ox-gold) !important;
+    text-transform: uppercase;
+    font-weight: 800;
+    border-radius: 0 !important;
+}
+
+.theme-oxford-premium-balakutak .news-immersive-card {
+    border-radius: 0 !important;
+    box-shadow: var(--shadow-premium) !important;
+}
+
+.theme-oxford-premium-balakutak .news-immersion-grad {
+    background: linear-gradient(to top, rgba(0, 33, 71, 0.95) 0%, rgba(0, 33, 71, 0.4) 50%, transparent 100%) !important;
+}
+
+.theme-oxford-premium-balakutak .badge-theme-pill {
+    background: var(--ox-gold) !important;
+}
+
+/* ========= TESTIMONIALS & CTA ========= */
+.theme-oxford-premium-balakutak .section-testimonials {
+    background-color: var(--bg-gray) !important;
+}
+
+.theme-oxford-premium-balakutak .testimonial-swiper .card {
+    border-left: 4px solid var(--ox-gold) !important;
+    border-radius: 0 !important;
+}
+
+.theme-oxford-premium-balakutak .section-cta {
+    background: var(--ox-blue) !important;
+}
+
+.theme-oxford-premium-balakutak .section-cta h2 {
+    color: #FFF !important;
+    font-family: 'Playfair Display', serif;
+}
+
+/* ========= FOOTER ========= */
+.theme-oxford-premium-balakutak footer {
+    background: var(--ox-blue) !important;
+    border-top: 4px solid var(--ox-gold) !important;
+    color: rgba(255,255,255,0.8) !important;
+}
+
+.theme-oxford-premium-balakutak footer .footer-heading {
+    color: #FFF !important;
+    border-bottom: 2px solid var(--ox-gold) !important;
+    padding-bottom: 8px;
+    font-family: 'Playfair Display', serif;
+}
+
+.theme-oxford-premium-balakutak footer a {
+    color: rgba(255,255,255,0.7) !important;
+}
+
+.theme-oxford-premium-balakutak footer a:hover {
+    color: var(--ox-gold) !important;
+}
+
+.theme-oxford-premium-balakutak .social-btn {
+    background: rgba(255,255,255,0.1) !important;
+    color: #FFF !important;
+    border: none !important;
+}
+
+.theme-oxford-premium-balakutak .social-btn:hover {
+    background: var(--ox-gold) !important;
+}
+
+/* ========= PAGE HEADERS ========= */
+.theme-oxford-premium-balakutak .page-header-premium {
+    background: var(--ox-blue) !important;
+    border-bottom: 5px solid var(--ox-gold) !important;
+}
+
+.theme-oxford-premium-balakutak .breadcrumb-item a {
+    color: var(--ox-gold) !important;
+}
+
+/* Dark Mode Overrides for Oxford Premium */
+html.dark body.theme-oxford-premium-balakutak {
+    background-color: #0f172a;
+    color: #f1f5f9;
+}
+
+html.dark .theme-oxford-premium-balakutak #main-navbar.elegant-navbar {
+    background-color: #1e293b !important;
+}
+
+html.dark .theme-oxford-premium-balakutak .news-immersive-card {
+    background-color: #1e293b !important;
+}
+
+/* Miscellaneous UI Fixes */
+.theme-oxford-premium-balakutak .chatbot-toggle,
+.theme-oxford-premium-balakutak .acc-toggle {
+    background: var(--ox-blue) !important;
+    border-color: var(--ox-gold) !important;
+    color: var(--ox-gold) !important;
+}
+
+.theme-oxford-premium-balakutak .chatbot-toggle:hover,
+.theme-oxford-premium-balakutak .acc-toggle:hover {
+    background: var(--ox-gold) !important;
+    color: #FFF !important;
+}

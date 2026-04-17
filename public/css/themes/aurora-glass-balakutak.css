@@ -1,0 +1,620 @@
+/* ===============================================
+   AuroraGlass-BalaKutaK Theme - "CYBER LIGHT"
+   Implementation based on RoyalPurple's architectural layout
+   Features: Glassmorphism, Neon Accents, Cyber-Blue palette
+   =============================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --p-dark: #020617;
+    --p-mid: #0f172a;
+    --p-emerald: #083344;
+    --gold: #00f2fe;
+    --gold-light: #cdfdff;
+    --gold-dark: #06b6d4;
+    --rose: #3b82f6;
+    --rose-light: #dbeafe;
+    --rose-dark: #2563eb;
+    --bg-silk: #f8fafc;
+    --text-main: #0f172a;
+    --border-gold: 1px solid rgba(0, 242, 254, 0.25);
+    --shadow-soft: 0 20px 50px rgba(2, 6, 23, 0.06);
+    --shadow-glow: 0 8px 32px rgba(6, 182, 212, 0.15);
+    --gold-rgb: 0, 242, 254;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --radius-xl: 24px;
+    --radius-2xl: 32px;
+}
+
+body.theme-aurora-glass-balakutak {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-silk);
+}
+
+/* NAVBAR & TOP MENU REFINEMENTS (Keep Stable) */
+.theme-aurora-glass-balakutak .top-menu-wrapper {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%) !important;
+}
+
+/* ========= THE STABLE AURORA HERO (30/70 SPLIT) ========= */
+.theme-aurora-glass-balakutak .aurora-hero {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    height: 650px;
+    min-height: 650px;
+    overflow: hidden;
+    position: relative;
+    background: #1a44aa;
+}
+
+.theme-aurora-glass-balakutak .aurora-hero-left {
+    background: #1a44aa;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important; /* Force to top */
+    padding: 6rem 0 2rem 5rem; /* Direct top position control */
+    position: relative;
+    z-index: 5;
+    overflow: visible;
+}
+
+.theme-aurora-glass-balakutak .aurora-text-swiper {
+    width: 160%; /* Allow overflow for wider text */
+    z-index: 10;
+}
+
+.theme-aurora-glass-balakutak .aurora-text-swiper .swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important; /* Direct entry alignment */
+    height: 100%;
+}
+
+.theme-aurora-glass-balakutak .aurora-title {
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+}
+
+.theme-aurora-glass-balakutak .aurora-desc {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.8;
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+}
+
+.theme-aurora-glass-balakutak .aurora-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: #fff;
+    color: #1a44aa;
+    padding: 1rem 2.2rem;
+    border-radius: 100px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    width: fit-content;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* RIGHT PANEL: IMAGE */
+.theme-aurora-glass-balakutak .aurora-hero-right {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.theme-aurora-glass-balakutak .aurora-hero-right .aurora-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.theme-aurora-glass-balakutak .aurora-hero-right .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Seamless Gradient Overlay */
+.theme-aurora-glass-balakutak .aurora-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 100%;
+    background: linear-gradient(to right, #1a44aa 0%, #1a44aa 38%, rgba(26, 68, 170, 0.6) 70%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Slider dots */
+.theme-aurora-glass-balakutak .aurora-dots {
+    display: flex;
+    gap: 10px;
+    margin-top: 2rem; /* Reduced gap since text is at top */
+}
+.theme-aurora-glass-balakutak .aurora-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+}
+.theme-aurora-glass-balakutak .aurora-dot.active {
+    background: #fff;
+    width: 30px;
+    border-radius: 10px;
+}
+
+/* ========= THE ELEGANT LANDSCAPE STATS BAR ========= */
+.theme-aurora-glass-balakutak .aurora-stats-bar-wrapper {
+    position: relative;
+    z-index: 50;
+    margin-top: -30px;
+    margin-bottom: 4rem;
+}
+
+.theme-aurora-glass-balakutak .aurora-stats-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 4rem;
+    background: #fff;
+    border-radius: 100px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.theme-aurora-glass-balakutak .aurora-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.theme-aurora-glass-balakutak .stat-info {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.theme-aurora-glass-balakutak .stat-info .stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1a44aa;
+    margin: 0;
+}
+
+.theme-aurora-glass-balakutak .stat-info .stat-label {
+    font-size: 0.78rem !important;
+    color: #64748b !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    white-space: nowrap !important;
+}
+
+/* ========= LEADERSHIP GREETING (Premium Aurora) ========= */
+.theme-aurora-glass-balakutak .aurora-tagline {
+    font-size: 0.75rem !important;
+    letter-spacing: 2.5px !important;
+    text-transform: uppercase !important;
+    font-weight: 800 !important;
+    color: #1a44aa !important;
+    display: block !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-greet-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 2.6rem !important;
+    color: #0f172a !important;
+    letter-spacing: -1.2px !important;
+    line-height: 1 !important;
+}
+
+.theme-aurora-glass-balakutak .leader-avatar-premium {
+    width: 105px !important;
+    height: 105px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    padding: 4px !important;
+    background: linear-gradient(135deg, #1a44aa, #4379e8) !important;
+    box-shadow: 0 12px 30px rgba(26, 68, 170, 0.25) !important;
+    flex-shrink: 0 !important;
+}
+
+.theme-aurora-glass-balakutak .leader-avatar-premium img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    border: 3px solid #fff !important;
+}
+
+.theme-aurora-glass-balakutak .leader-placeholder-aurora {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    background: #f1f5f9 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #cbd5e1 !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-leader-name {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    font-size: 1.4rem !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-leader-badge {
+    color: #1a44aa !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    display: flex !important;
+    align-items: center !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-quote-box {
+    position: relative !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-quote-icon {
+    position: absolute !important;
+    left: -1.5rem !important;
+    top: -1.5rem !important;
+    font-size: 4rem !important;
+    color: #1a44aa !important;
+    opacity: 0.12 !important;
+    z-index: -1 !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-quote-text {
+    font-size: 1.15rem !important;
+    color: #526071 !important;
+    line-height: 1.9 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-btn-link {
+    color: #1a44aa !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+    font-size: 0.88rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    border-bottom: 2px solid rgba(26, 68, 170, 0.2) !important;
+    padding-bottom: 4px !important;
+    transition: all 0.4s !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-btn-link:hover {
+    color: #2563eb !important;
+    border-color: #2563eb !important;
+    transform: translateX(8px) !important;
+}
+
+/* Video Container Mods */
+.theme-aurora-glass-balakutak .aurora-video-container {
+    position: relative !important;
+    padding: 12px !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-video-glow {
+    position: absolute !important;
+    top: -15px !important;
+    left: -15px !important;
+    right: -15px !important;
+    bottom: -15px !important;
+    background: radial-gradient(circle, rgba(26, 68, 170, 0.15), transparent 70%) !important;
+    filter: blur(25px) !important;
+    z-index: 1 !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-video-frame {
+    border-radius: 40px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 5 !important;
+    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.3) !important;
+    border: 3px solid #fff !important;
+}
+
+.theme-aurora-glass-balakutak .icon-play-aurora {
+    width: 85px !important;
+    height: 85px !important;
+    background: linear-gradient(135deg, #1a44aa, #4379e8) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 15px 30px rgba(26, 68, 170, 0.4) !important;
+}
+
+/* ========= AURORA CTA SECTION ========= */
+.theme-aurora-glass-balakutak .aurora-cta-section {
+    background: #020617 !important;
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
+    padding: 120px 0 !important;
+}
+
+/* Hide legacy patterns */
+.theme-aurora-glass-balakutak .page-header-pattern,
+.theme-aurora-glass-balakutak .stats-bar-decorative,
+.theme-aurora-glass-balakutak .lux-cta-background,
+.theme-aurora-glass-balakutak .section-cta {
+    display: none !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-cta-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(67, 121, 232, 0.15), transparent 70%);
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.theme-aurora-glass-balakutak .aurora-cta-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 3.2rem !important;
+    letter-spacing: -2px !important;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.theme-aurora-glass-balakutak .aurora-cta-blob {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.1;
+    z-index: 2;
+}
+
+.theme-aurora-glass-balakutak .aurora-cta-blob.blob-1 {
+    top: -100px;
+    left: -100px;
+    background: #00f2fe;
+}
+
+.theme-aurora-glass-balakutak .aurora-cta-blob.blob-2 {
+    bottom: -100px;
+    right: -100px;
+    background: #4379e8;
+}
+
+.theme-aurora-glass-balakutak .aurora-btn-premium {
+    background: #fff !important;
+    color: #1a44aa !important;
+    padding: 18px 45px !important;
+    border-radius: 100px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-size: 0.9rem !important;
+    text-decoration: none !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-btn-premium:hover {
+    transform: translateY(-8px) scale(1.05) !important;
+    box-shadow: 0 25px 45px rgba(255,255,255,0.2) !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-btn-outline {
+    background: rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+    padding: 18px 40px !important;
+    border-radius: 100px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-size: 0.85rem !important;
+    text-decoration: none !important;
+    backdrop-filter: blur(10px) !important;
+    border: 2px solid rgba(255,255,255,0.3) !important;
+    transition: all 0.4s !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-btn-outline:hover {
+    background: rgba(255,255,255,1) !important;
+    color: #1a44aa !important;
+    border-color: #fff !important;
+    transform: translateY(-5px) !important;
+}
+
+/* ========= AURORA FOOTER (Midnight Pro) ========= */
+.theme-aurora-glass-balakutak .aurora-footer {
+    background: #020617 !important;
+    border-top: 1px solid rgba(255,255,255,0.05) !important;
+    padding-top: 100px !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-footer .footer-heading {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 2rem !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-footer a {
+    color: #94a3b8 !important;
+    transition: all 0.3s !important;
+    text-decoration: none !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-footer a:hover {
+    color: #00f2fe !important;
+    padding-left: 5px !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-footer .social-btn {
+    width: 45px !important;
+    height: 45px !important;
+    background: rgba(255,255,255,0.03) !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    transition: all 0.3s !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-footer .social-btn:hover {
+    background: #1a44aa !important;
+    transform: translateY(-5px) rotate(8deg) !important;
+    box-shadow: 0 10px 20px rgba(26, 68, 170, 0.4) !important;
+}
+
+.theme-aurora-glass-balakutak .aurora-footer i.text-primary {
+    color: #00f2fe !important;
+}
+
+.theme-aurora-glass-balakutak .footer-divider {
+    border-color: rgba(255,255,255,0.05) !important;
+}
+
+/* ========= UNIQUE AURORA PAGE HEADER ========= */
+.theme-aurora-glass-balakutak .page-header-premium {
+    background: #020617 !important; /* Deep space base */
+    padding: 100px 0 80px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    border-bottom: 2px solid rgba(26, 68, 170, 0.2) !important;
+}
+
+/* Light Blobs for Header (More organic, No grid) */
+.theme-aurora-glass-balakutak .page-header-premium::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -10% !important;
+    right: -5% !important;
+    width: 600px !important;
+    height: 600px !important;
+    background: radial-gradient(circle, rgba(67, 121, 232, 0.2) 0%, transparent 70%) !important;
+    z-index: 1 !important;
+    filter: blur(80px) !important;
+    border-radius: 50% !important;
+}
+
+.theme-aurora-glass-balakutak .page-header-premium::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -10% !important;
+    left: -5% !important;
+    width: 500px !important;
+    height: 500px !important;
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, transparent 70%) !important;
+    z-index: 1 !important;
+    filter: blur(60px) !important;
+    border-radius: 50% !important;
+}
+
+.theme-aurora-glass-balakutak .page-header-premium .container {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Glass Pill Breadcrumb */
+.theme-aurora-glass-balakutak .breadcrumb {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 8px 24px !important;
+    border-radius: 100px !important;
+    display: inline-flex !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.theme-aurora-glass-balakutak .breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-size: 0.75rem !important;
+    text-decoration: none !important;
+}
+
+.theme-aurora-glass-balakutak .breadcrumb-item.active {
+    color: #00f2fe !important;
+    font-weight: 700 !important;
+}
+
+.theme-aurora-glass-balakutak .page-header-premium h1 {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 3.5rem !important;
+    letter-spacing: -1.5px !important;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.3) !important;
+}
+
+/* Page Header Logo Accent */
+.theme-aurora-glass-balakutak .page-header-logo img {
+    opacity: 0.15 !important;
+    filter: brightness(2) !important;
+    transform: scale(1.5) rotate(-15deg) !important;
+}
+
+/* ========= UNIQUE AURORA MODULE HEADERS ========= */
+.theme-aurora-glass-balakutak .section-label {
+    font-family: 'Outfit', sans-serif !important;
+    color: #1a44aa !important;
+    font-weight: 800 !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase !important;
+    font-size: 0.78rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+}
+
+.theme-aurora-glass-balakutak .section-label::before {
+    content: '' !important;
+    width: 30px !important;
+    height: 3px !important;
+    background: #1a44aa !important;
+    display: block !important;
+    border-radius: 10px !important;
+}
+
+.theme-aurora-glass-balakutak .gradient-bar {
+    width: 80px !important;
+    height: 6px !important;
+    background: linear-gradient(90deg, #1a44aa, #00f2fe) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 15px rgba(26, 68, 170, 0.3) !important;
+    margin: 1rem 0 2rem !important;
+}
+
+.theme-aurora-glass-balakutak .about-card {
+    border-radius: 30px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04) !important;
+}

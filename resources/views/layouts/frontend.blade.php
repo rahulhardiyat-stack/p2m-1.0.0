@@ -39,14 +39,17 @@
     {{-- AOS Animations --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 
+    {{-- Foundation Styles --}}
+    <link rel="stylesheet" href="{{ asset('css/frontend.css') }}?v={{ time() }}">
+
+    {{-- Theme Overrides --}}
     @php
         $siteTheme = \App\Models\Setting::get('site_theme', 'navy-blue-balakutak');
         $themeFile = "css/themes/{$siteTheme}.css";
-        if (!file_exists(public_path($themeFile))) {
-            $themeFile = 'css/frontend.css';
-        }
     @endphp
-    <link rel="stylesheet" href="{{ asset($themeFile) }}">
+    @if($siteTheme != 'default' && file_exists(public_path($themeFile)))
+        <link rel="stylesheet" href="{{ asset($themeFile) }}?v={{ time() }}">
+    @endif
 
     @stack('styles')
 
@@ -63,10 +66,7 @@
 </head>
 <body class="frontend-body theme-{{ $siteTheme }}">
 
-    {{-- Scroll to Top --}}
-    <div id="scroll-top" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-        <i class="fas fa-arrow-up"></i>
-    </div>
+
 
     {{-- Navigation --}}
     @include('frontend.partials.navbar')
@@ -107,11 +107,7 @@
             }
         });
 
-        // Scroll to top button
-        window.addEventListener('scroll', () => {
-            const btn = document.getElementById('scroll-top');
-            if (btn) btn.classList.toggle('visible', window.scrollY > 300);
-        });
+
 
         // Dark mode toggle (Alpine handles the class, this updates body bg)
         document.addEventListener('alpine:init', () => {

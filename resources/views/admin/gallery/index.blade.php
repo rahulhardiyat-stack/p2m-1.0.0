@@ -62,11 +62,23 @@
     <div class="card card-gallery shadow-sm border-0" style="border-radius: 16px;">
         <div class="card-header border-0 bg-white py-4 px-4">
             <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h3 class="card-title font-weight-bold text-dark m-0" style="font-size: 1.25rem;">
-                        <i class="fas fa-images mr-2 text-primary"></i>{{ __('admin.gallery') }}
-                    </h3>
-                    <p class="text-muted small mb-0 mt-1">Kelola album foto dan video konten website</p>
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h3 class="card-title font-weight-bold text-dark m-0" style="font-size: 1.25rem;">
+                            <i class="fas fa-images mr-2 text-primary"></i>{{ __('admin.gallery') }}
+                        </h3>
+                        <p class="text-muted small mb-0 mt-1">Kelola album foto dan video konten website</p>
+                    </div>
+
+                    {{-- Bulk Delete Button (Super Admin & Admin Only) --}}
+                    @if(auth()->user()->hasRole(['Super Admin', 'Admin Prodi']))
+                    <form id="bulk-delete-form" action="{{ route('admin.gallery.mass-destroy') }}" method="POST" class="ml-4" style="display: none;">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3 shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus item galeri yang dipilih?')">
+                            <i class="fas fa-trash-alt mr-1"></i> Hapus Terpilih (<span id="selected-count">0</span>)
+                        </button>
+                    </form>
+                    @endif
                 </div>
                 <a href="{{ route('admin.gallery.create') }}" class="btn btn-primary shadow-sm hover-up rounded-pill px-4 py-2">
                     <i class="fas fa-plus mr-2"></i> {{ __('admin.add_gallery') }}
@@ -78,7 +90,15 @@
                 <table class="table table-hover table-gallery align-middle mb-0">
                     <thead>
                         <tr>
-                            <th class="px-4 py-3" width="120">{{ __('admin.image') }}</th>
+                            @if(auth()->user()->hasRole(['Super Admin', 'Admin Prodi']))
+                            <th class="px-4 py-3" width="40">
+                                <div class="custom-control custom-checkbox ml-1">
+                                    <input type="checkbox" class="custom-control-input" id="select-all">
+                                    <label class="custom-control-label" for="select-all"></label>
+                                </div>
+                            </th>
+                            @endif
+                            <th class="{{ auth()->user()->hasRole(['Super Admin', 'Admin Prodi']) ? '' : 'px-4' }} py-3" width="120">{{ __('admin.image') }}</th>
                             <th class="py-3">{{ __('admin.gallery_title') }}</th>
                             <th class="py-3" width="180">{{ __('admin.gallery_category') }}</th>
                             <th class="py-3 text-center" width="120">{{ __('admin.status') }}</th>
@@ -89,7 +109,15 @@
                     @forelse($galleries as $gallery)
                         <!-- Row Content -->
                         <tr>
+                            @if(auth()->user()->hasRole(['Super Admin', 'Admin Prodi']))
                             <td class="px-4 py-3">
+                                <div class="custom-control custom-checkbox ml-1">
+                                    <input type="checkbox" name="ids[]" value="{{ $gallery->id }}" form="bulk-delete-form" class="custom-control-input gallery-checkbox" id="check-{{ $gallery->id }}">
+                                    <label class="custom-control-label" for="check-{{ $gallery->id }}"></label>
+                                </div>
+                            </td>
+                            @endif
+                            <td class="{{ auth()->user()->hasRole(['Super Admin', 'Admin Prodi']) ? '' : 'px-4' }} py-3">
                                 <div class="clickable-preview" onclick="showMediaDetailsByPath('{{ $gallery->file_path }}')" style="cursor:pointer">
                                     @if($gallery->type === 'photo')
                                         <div class="gallery-thumb-wrapper shadow-sm">
@@ -152,7 +180,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted py-5">
+                            <td colspan="{{ auth()->user()->hasRole(['Super Admin', 'Admin Prodi']) ? '6' : '5' }}" class="text-center text-muted py-5">
                                 <i class="fas fa-images fa-3x mb-3 opacity-25"></i>
                                 <p class="mb-0">{{ __('admin.no_gallery') }}</p>
                             </td>
@@ -268,7 +296,37 @@
 
 @section('js')
 <script>
-// Gallery index specific script (if any)
+    $(document).ready(function() {
+        const selectAll = $('#select-all');
+        const checkboxes = $('.gallery-checkbox');
+        const bulkDeleteForm = $('#bulk-delete-form');
+        const selectedCount = $('#selected-count');
+
+        function updateBulkButton() {
+            const checkedCount = $('.gallery-checkbox:checked').length;
+            selectedCount.text(checkedCount);
+            if (checkedCount > 0) {
+                bulkDeleteForm.fadeIn(200);
+            } else {
+                bulkDeleteForm.fadeOut(200);
+            }
+        }
+
+        selectAll.on('change', function() {
+            checkboxes.prop('checked', $(this).prop('checked'));
+            updateBulkButton();
+        });
+
+        checkboxes.on('change', function() {
+            if (!$(this).prop('checked')) {
+                selectAll.prop('checked', false);
+            }
+            if ($('.gallery-checkbox:checked').length === checkboxes.length && checkboxes.length > 0) {
+                selectAll.prop('checked', true);
+            }
+            updateBulkButton();
+        });
+    });
 </script>
 
 <!-- Copy Alert Toast -->

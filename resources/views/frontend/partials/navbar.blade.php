@@ -119,6 +119,39 @@
         position: relative;
         z-index: 1040;
         padding: 5px 0; 
+        overflow: hidden;
+    }
+
+    .top-menu-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(100, 255, 218, 0.15) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(0, 180, 216, 0.15) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .top-menu-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to top, rgba(100, 255, 218, 0.1) 0%, transparent 100%);
+        clip-path: polygon(
+            0% 100%, 5% 70%, 10% 90%, 15% 50%, 20% 80%, 25% 20%, 30% 60%, 35% 85%, 
+            40% 30%, 45% 70%, 50% 10%, 55% 90%, 60% 40%, 65% 80%, 70% 20%, 75% 60%, 
+            80% 10%, 85% 70%, 90% 90%, 95% 50%, 100% 100%
+        );
+        filter: blur(5px);
+        opacity: 0.6;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .top-menu-wrapper > .container {
+        position: relative;
+        z-index: 1;
     }
     
     .top-menu-items {
@@ -415,12 +448,29 @@
         background: linear-gradient(120deg, #ffffff 0%, #f6f9fc 50%, #e9ecef 100%);
         border-bottom: 1px solid rgba(0, 86, 179, 0.1) !important;
         position: relative;
+        overflow: hidden;
     }
     .elegant-navbar::before {
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: radial-gradient(circle at top right, rgba(0, 180, 216, 0.03) 0%, transparent 60%);
+        background-image: 
+            radial-gradient(circle at 70% 20%, rgba(0, 86, 179, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 10% 80%, rgba(0, 180, 216, 0.08) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .elegant-navbar::after {
+        content: '';
+        position: absolute;
+        bottom: 0; right: 0; width: 100%; height: 100%;
+        background: linear-gradient(to top, rgba(0, 180, 216, 0.05) 0%, transparent 100%);
+        clip-path: polygon(
+            0% 100%, 8% 60%, 15% 85%, 22% 40%, 30% 75%, 38% 15%, 45% 90%, 52% 35%, 
+            60% 80%, 68% 10%, 75% 70%, 83% 45%, 90% 95%, 100% 100%
+        );
+        filter: blur(4px);
+        opacity: 0.6;
         pointer-events: none;
         z-index: 0;
     }
@@ -434,6 +484,22 @@
         padding-bottom: 0.8rem;
     }
 
+    .navbar-nav {
+        position: relative;
+        padding-right: 1rem;
+    }
+    .navbar-nav::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(circle at center, rgba(0, 180, 216, 0.04) 0%, transparent 80%);
+        clip-path: polygon(0 100%, 15% 40%, 30% 60%, 45% 20%, 60% 50%, 75% 30%, 100% 100%);
+        filter: blur(15px);
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
     .main-nav-link {
         font-family: 'Poppins', sans-serif;
         font-size: 1.05rem;
@@ -524,8 +590,26 @@
 
     /* Dark Mode Adjustments for High Contrast & Luxury */
     .dark .elegant-navbar {
-        background: linear-gradient(120deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        background: linear-gradient(120deg, #0b0c10 0%, #1f2833 50%, #0b0c10 100%) !important;
+        border-bottom: 2px solid var(--lux-gold, #c5a059) !important;
+        box-shadow: 0 4px 20px rgba(197, 160, 89, 0.2) !important;
+    }
+    
+    .dark .elegant-navbar::before {
+        background-image: 
+            radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%) !important;
+        opacity: 0.9;
+    }
+
+    .dark .elegant-navbar::after {
+        background: linear-gradient(to top, rgba(197, 160, 89, 0.2) 0%, transparent 100%) !important;
+        clip-path: polygon(
+            0% 100%, 5% 75%, 12% 90%, 20% 45%, 28% 80%, 35% 20%, 42% 65%, 50% 10%, 
+            58% 85%, 65% 30%, 72% 70%, 80% 15%, 88% 55%, 95% 40%, 100% 100%
+        ) !important;
+        filter: blur(3px) !important;
+        opacity: 0.8;
     }
     
     .dark .elegant-brand-title {
