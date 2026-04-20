@@ -119,7 +119,7 @@
         position: relative;
         z-index: 1040;
         padding: 5px 0; 
-        overflow: hidden;
+        overflow: visible;
     }
 
     .top-menu-wrapper::before {
@@ -448,7 +448,7 @@
         background: linear-gradient(120deg, #ffffff 0%, #f6f9fc 50%, #e9ecef 100%);
         border-bottom: 1px solid rgba(0, 86, 179, 0.1) !important;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     .elegant-navbar::before {
         content: '';

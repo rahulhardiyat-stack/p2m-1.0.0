@@ -176,10 +176,17 @@ class PostController extends Controller
                         $catName = (string)$cat;
                         // Avoid empty categories
                         if (!empty(trim($catName))) {
-                            $dbCategory = Category::firstOrCreate([
-                                'name' => $catName,
-                                'slug' => Str::slug($catName)
-                            ]);
+                            $catSlug = Str::limit(Str::slug($catName), 255, '');
+                            $dbCategory = Category::where('name', $catName)
+                                ->orWhere('slug', $catSlug)
+                                ->first();
+
+                            if (!$dbCategory) {
+                                $dbCategory = Category::create([
+                                    'name' => Str::limit($catName, 255, ''),
+                                    'slug' => $catSlug
+                                ]);
+                            }
                             $categoryId = $dbCategory->id;
                             break; // prioritize first found category
                         }
@@ -202,7 +209,7 @@ class PostController extends Controller
                 $post = Post::create([
                     'user_id' => auth()->id(),
                     'title' => Str::limit($title, 255, ''),
-                    'slug' => Str::limit($postSlug, 255, ''),
+                    'slug' => $postSlug,
                     'content' => $content,
                     'excerpt' => Str::limit(strip_tags($content), 200),
                     'category_id' => $categoryId,
@@ -341,12 +348,15 @@ class PostController extends Controller
         return back()->with('success', 'Status artikel diperbarui!');
     }
 
-    protected function uniqueSlug(string $slug, string $model): string
+    protected function uniqueSlug(string $slug, string $model, int $limit = 255): string
     {
+        // First truncate if it exceeds limit (leaving room for possible suffix)
+        $slug = Str::limit($slug, $limit - 10, '');
         $original = $slug;
         $i = 1;
         while ($model::withTrashed()->where('slug', $slug)->exists()) {
-            $slug = "{$original}-{$i}";
+            $suffix = "-{$i}";
+            $slug = Str::limit($original, $limit - strlen($suffix), '') . $suffix;
             $i++;
         }
         return $slug;
@@ -386,8 +396,8 @@ class PostController extends Controller
                     return $path;
                 }
             } else {
-                $response = \Illuminate\Support\Facades\Http::timeout(10)->get($url);
-                if ($response->successful()) {
+                $response = \Illuminate\Support\Facades\Http::timeout(20)->get($url);
+                if ($response->successful() && str_contains($response->header('Content-Type'), 'image/')) {
                     $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
                     $path = 'gallery/imported-' . Str::random(20) . '.' . $ext;
                     Storage::disk('public')->put($path, $response->body());

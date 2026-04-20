@@ -101,8 +101,12 @@ body.theme-stanford-grow-balakutak {
     top: 46px; /* Moved down slightly to prevent logo clipping */
     left: 0;
     width: 100%;
-    z-index: 1030;
+    z-index: 1040 !important;
     transition: all 0.4s ease;
+}
+
+.theme-stanford-grow-balakutak #main-navbar.elegant-navbar .dropdown-menu {
+    z-index: 9999 !important;
 }
 
 .theme-stanford-grow-balakutak #main-navbar.elegant-navbar.scrolled {
@@ -186,7 +190,7 @@ body.theme-stanford-grow-balakutak {
 .theme-stanford-grow-balakutak .hero-swiper {
     height: 90vh !important;
     clip-path: ellipse(120% 100% at 50% 0%);
-    background: #000;
+    background: #8C1515;
 }
 
 /* Stats Bar - Complete Cleanup */

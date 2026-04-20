@@ -131,6 +131,11 @@ body.theme-royal-purple-balakutak h6 {
     border-bottom: 1px solid rgba(192, 132, 252, 0.08) !important;
     box-shadow: 0 8px 32px rgba(26, 10, 46, 0.06) !important;
     transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1040 !important;
+}
+
+.theme-royal-purple-balakutak .dropdown-menu {
+    z-index: 9999 !important;
 }
 
 .theme-royal-purple-balakutak #main-navbar.elegant-navbar.scrolled {

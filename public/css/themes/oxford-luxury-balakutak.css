@@ -26,6 +26,14 @@ body.theme-oxford-luxury-balakutak {
     background-color: var(--lux-bg);
 }
 
+.theme-oxford-luxury-balakutak #main-navbar {
+    z-index: 1040 !important;
+}
+
+.theme-oxford-luxury-balakutak .dropdown-menu {
+    z-index: 9999 !important;
+}
+
 .theme-oxford-luxury-balakutak h1,
 .theme-oxford-luxury-balakutak h2,
 .theme-oxford-luxury-balakutak h3 {

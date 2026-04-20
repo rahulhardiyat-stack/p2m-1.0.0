@@ -115,8 +115,9 @@ html.dark .text-muted {
 /* ========= NAVBAR ========= */
 #main-navbar {
     transition: var(--transition);
-    z-index: 1030;
+    z-index: 1040 !important;
     padding: .75rem 0;
+    overflow: visible !important;
 }
 
 .nav-link {
@@ -132,7 +133,8 @@ html.dark .text-muted {
     border: none;
     box-shadow: var(--shadow-lg);
     border-radius: var(--border-radius);
-    overflow: hidden;
+    overflow: visible !important;
+    z-index: 9999 !important;
 }
 
 .dropdown-item {

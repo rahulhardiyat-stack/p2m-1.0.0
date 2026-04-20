@@ -63,16 +63,29 @@
                     <div class="swiper-wrapper">
                         @forelse($sliders as $slider)
                             @php
-                                $sImg2 = $slider->image;
-                                if (!file_exists(public_path('storage/' . $sImg2)) && file_exists(public_path('storage/media/' . $sImg2))) {
-                                    $sImg2 = 'media/' . $sImg2;
+                                $sImg = $slider->image;
+                                $imgPath = null;
+
+                                // If path is empty, use fallback
+                                if (!$sImg) {
+                                    $imgPath = 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2670&auto=format&fit=crop';
+                                } else {
+                                    // Check direct path in storage
+                                    if (file_exists(public_path('storage/' . $sImg))) {
+                                        $imgPath = asset('storage/' . $sImg);
+                                    } 
+                                    // Check if it's missing 'media/' prefix but exists there
+                                    elseif (file_exists(public_path('storage/media/' . $sImg))) {
+                                        $imgPath = asset('storage/media/' . $sImg);
+                                    }
+                                    // Fallback to Unsplash
+                                    else {
+                                        $imgPath = 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2670&auto=format&fit=crop';
+                                    }
                                 }
-                                $imgSrc = file_exists(public_path('storage/' . $sImg2))
-                                    ? asset('storage/'.$sImg2)
-                                    : 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2670&auto=format&fit=crop';
                             @endphp
                             <div class="swiper-slide">
-                                <img src="{{ $imgSrc }}" alt="{{ $slider->title }}"
+                                <img src="{{ $imgPath }}" alt="{{ $slider->title }}"
                                      onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2670&auto=format&fit=crop'">
                             </div>
                         @empty
@@ -122,30 +135,6 @@
                 </div>
             </div>
         </div>
-    @elseif($isPremium)
-        {{-- Stats Bar --}}
-        <div class="aurora-stats-bar-wrapper">
-            <div class="container">
-                <div class="aurora-stats-card shadow-lg">
-                    <div class="row text-center py-4">
-                        @php $cols = count($stats) > 4 ? 3 : (12 / max(count($stats), 1)); @endphp
-                        @foreach($stats as $index => $stat)
-                            <div class="col-6 col-md-{{ $cols }} aurora-stat-item" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
-                                <div class="aurora-stat-val counter-value" data-target="{{ $stat['value'] ?? 0 }}">0</div>
-                                <div class="aurora-stat-lbl">{{ $stat['label'] ?? '-' }}</div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="aurora-hero-wave">
-                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C58,117.26,128.36,125.13,200,111,262.24,98.74,271.49,65.52,321.39,56.44Z" class="shape-fill"></path>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        </section>
-
     @elseif($isPremium)
         <section class="hero-section luxury-theme-hero py-0">
             <div class="container-fluid px-0 h-100">

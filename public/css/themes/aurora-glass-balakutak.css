@@ -37,6 +37,15 @@ body.theme-aurora-glass-balakutak {
 /* NAVBAR & TOP MENU REFINEMENTS (Keep Stable) */
 .theme-aurora-glass-balakutak .top-menu-wrapper {
     background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%) !important;
+    z-index: 1050 !important;
+}
+
+.theme-aurora-glass-balakutak #main-navbar {
+    z-index: 1040 !important;
+}
+
+.theme-aurora-glass-balakutak .dropdown-menu {
+    z-index: 9999 !important;
 }
 
 /* ========= THE STABLE AURORA HERO (30/70 SPLIT) ========= */
