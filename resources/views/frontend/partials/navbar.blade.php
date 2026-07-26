@@ -4,8 +4,8 @@
         <div class="top-menu-items d-none d-md-flex">
             @if(isset($sharedMenus['top-menu']) && $sharedMenus['top-menu']->items->count() > 0)
                 @foreach($sharedMenus['top-menu']->items as $item)
-                    <a href="{{ $item->resolved_url }}" 
-                       class="top-menu-link me-4 {{ $item->css_class }}" 
+                    <a href="{{ $item->resolved_url }}"
+                       class="top-menu-link me-4 {{ $item->css_class }}"
                        target="{{ $item->target }}">
                         @if($item->icon) <i class="{{ $item->icon }} top-menu-icon"></i> @endif
                         <span>{{ $item->label }}</span>
@@ -42,7 +42,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             {{-- Theme Toggle --}}
             <button x-data="themeToggle" @click="toggle()" class="btn btn-sm top-btn-utility rounded-circle d-flex align-items-center justify-content-center" title="{{ __('menu.theme') }}">
                 <i x-show="!dark" class="fas fa-moon"></i>
@@ -118,7 +118,7 @@
         border-bottom: 1px solid rgba(100, 255, 218, 0.1);
         position: relative;
         z-index: 1100 !important; /* Higher than main navbar z-index */
-        padding: 5px 0; 
+        padding: 5px 0;
         overflow: visible;
     }
 
@@ -126,7 +126,7 @@
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background-image: 
+        background-image:
             radial-gradient(circle at 10% 20%, rgba(100, 255, 218, 0.15) 0%, transparent 40%),
             radial-gradient(circle at 90% 80%, rgba(0, 180, 216, 0.15) 0%, transparent 40%);
         pointer-events: none;
@@ -139,8 +139,8 @@
         bottom: 0; left: 0; width: 100%; height: 100%;
         background: linear-gradient(to top, rgba(100, 255, 218, 0.1) 0%, transparent 100%);
         clip-path: polygon(
-            0% 100%, 5% 70%, 10% 90%, 15% 50%, 20% 80%, 25% 20%, 30% 60%, 35% 85%, 
-            40% 30%, 45% 70%, 50% 10%, 55% 90%, 60% 40%, 65% 80%, 70% 20%, 75% 60%, 
+            0% 100%, 5% 70%, 10% 90%, 15% 50%, 20% 80%, 25% 20%, 30% 60%, 35% 85%,
+            40% 30%, 45% 70%, 50% 10%, 55% 90%, 60% 40%, 65% 80%, 70% 20%, 75% 60%,
             80% 10%, 85% 70%, 90% 90%, 95% 50%, 100% 100%
         );
         filter: blur(5px);
@@ -153,7 +153,7 @@
         position: relative;
         z-index: 1;
     }
-    
+
     .top-menu-items {
         display: flex;
         align-items: center;
@@ -169,14 +169,14 @@
         position: relative;
         text-transform: uppercase;
         font-weight: 600;
-        font-size: 0.95rem; 
+        font-size: 0.95rem;
     }
 
     .top-menu-link::after {
         content: '';
         position: absolute;
         width: 0;
-        height: 3px; 
+        height: 3px;
         bottom: -8px;
         left: 0;
         background: linear-gradient(90deg, #64ffda, #00b4d8);
@@ -189,25 +189,25 @@
         color: #ffffff;
         text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
     }
-    
+
     .top-menu-link:hover::after {
         width: 100%;
     }
 
     .top-menu-icon {
-        color: #00b4d8; 
+        color: #00b4d8;
         margin-right: 8px;
-        font-size: 1.2rem; 
+        font-size: 1.2rem;
         transition: all 0.3s ease;
         filter: drop-shadow(0 0 5px rgba(0, 180, 216, 0.5));
     }
-    
+
     .top-menu-link:hover .top-menu-icon {
         transform: scale(1.15) translateY(-2px);
-        color: #64ffda; 
+        color: #64ffda;
         filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.8));
     }
-    
+
     /* Utility Buttons specific to Top Menu */
     .top-btn {
         background-color: rgba(255, 255, 255, 0.08);
@@ -216,7 +216,7 @@
         font-weight: 600;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     .top-btn:hover {
         background: var(--gold, #64ffda);
         color: #0a192f !important;
@@ -241,7 +241,7 @@
         border-color: #64ffda;
         transform: rotate(15deg) scale(1.1);
     }
-    
+
     .btn-exclusive {
         background: linear-gradient(135deg, #64ffda 0%, #00b4d8 100%);
         color: #0a192f;
@@ -250,7 +250,7 @@
         box-shadow: 0 4px 15px rgba(100, 255, 218, 0.2);
         transition: all 0.3s ease;
     }
-    
+
     .btn-exclusive:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
@@ -338,7 +338,7 @@
     <div class="container">
         {{-- Brand --}}
         <a class="navbar-brand d-flex align-items-center gap-3 notranslate" translate="no" href="{{ route('home') }}">
-            @php 
+            @php
                 $logo = \App\Models\Setting::get('site_logo');
                 $logoWhiteRaw = \App\Models\Setting::get('site_logo_white');
                 $logoWhite = !$logoWhiteRaw ? $logo : $logoWhiteRaw;
@@ -366,8 +366,8 @@
                         } else {
                             $siteName = \App\Models\Setting::get('site_name', 'Website Prodi');
                             $escapedName = e($siteName);
-                            $siteNameDisplay = str_contains($escapedName, 'Program Studi') 
-                                ? str_replace('Program Studi', 'Program Studi<br>', $escapedName) 
+                            $siteNameDisplay = str_contains($escapedName, 'Program Studi')
+                                ? str_replace('Program Studi', 'Program Studi<br>', $escapedName)
                                 : $escapedName;
                         }
                     @endphp
@@ -417,10 +417,10 @@
                     <li class="nav-item"><a class="nav-link main-nav-link px-3 {{ request()->routeIs('posts.*') ? 'active text-primary' : '' }}" href="{{ route('posts.index') }}">{{ __('menu.news') }}</a></li>
                     <li class="nav-item"><a class="nav-link main-nav-link px-3 {{ request()->routeIs('contact.*') ? 'active text-primary' : '' }}" href="{{ route('contact.index') }}">{{ __('menu.contact') }}</a></li>
                 @endif
-                
+
                 {{-- Search --}}
                 <li class="nav-item ms-3 d-flex align-items-center">
-                    <button type="button" class="btn btn-primary shadow-sm rounded-circle d-flex align-items-center justify-content-center hover-lift" 
+                    <button type="button" class="btn btn-primary shadow-sm rounded-circle d-flex align-items-center justify-content-center hover-lift"
                             style="width:42px;height:42px" title="{{ __('menu.search') }}"
                             data-bs-toggle="modal" data-bs-target="#searchModal">
                         <i class="fas fa-search"></i>
@@ -432,7 +432,7 @@
 </nav>
 
 @if(isset($sharedMenus['secondary-menu']) && $sharedMenus['secondary-menu']->items->count() > 0)
-    <div class="secondary-menu-wrapper py-2">
+    <div class="secondary-menu-wrapper py-2 z-0">
         <div class="container d-flex justify-content-center align-items-center gap-2 flex-wrap">
             @foreach($sharedMenus['secondary-menu']->items as $item)
                 @if($item->children->count() > 0)
@@ -477,8 +477,8 @@
                         <span class="input-group-text bg-white border-0 text-primary ps-4">
                             <i class="fas fa-search"></i>
                         </span>
-                        <input type="text" name="q" class="form-control border-0 py-4 px-3" 
-                               placeholder="{{ __('menu.search_placeholder') }}" 
+                        <input type="text" name="q" class="form-control border-0 py-4 px-3"
+                               placeholder="{{ __('menu.search_placeholder') }}"
                                style="font-size: 1.1rem; border-radius: 0 15px 15px 0;"
                                required minlength="3" autofocus>
                         <button class="btn btn-primary px-5 fw-bold" type="submit" style="border-radius: 15px; margin-left: 10px;">
@@ -515,7 +515,7 @@
         color: #0056b3;
         background-color: rgba(0, 86, 179, 0.05);
     }
-    
+
     @media (max-width: 768px) {
         .secondary-menu-wrapper .container {
             flex-wrap: nowrap !important;
@@ -555,7 +555,7 @@
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background-image: 
+        background-image:
             radial-gradient(circle at 70% 20%, rgba(0, 86, 179, 0.08) 0%, transparent 50%),
             radial-gradient(circle at 10% 80%, rgba(0, 180, 216, 0.08) 0%, transparent 50%);
         pointer-events: none;
@@ -567,7 +567,7 @@
         bottom: 0; right: 0; width: 100%; height: 100%;
         background: linear-gradient(to top, rgba(0, 180, 216, 0.05) 0%, transparent 100%);
         clip-path: polygon(
-            0% 100%, 8% 60%, 15% 85%, 22% 40%, 30% 75%, 38% 15%, 45% 90%, 52% 35%, 
+            0% 100%, 8% 60%, 15% 85%, 22% 40%, 30% 75%, 38% 15%, 45% 90%, 52% 35%,
             60% 80%, 68% 10%, 75% 70%, 83% 45%, 90% 95%, 100% 100%
         );
         filter: blur(4px);
@@ -600,7 +600,7 @@
         pointer-events: none;
         z-index: -1;
     }
-    
+
     .main-nav-link {
         font-family: 'Poppins', sans-serif;
         font-size: 1.05rem;
@@ -695,9 +695,9 @@
         border-bottom: 2px solid var(--lux-gold, #c5a059) !important;
         box-shadow: 0 4px 20px rgba(197, 160, 89, 0.2) !important;
     }
-    
+
     .dark .elegant-navbar::before {
-        background-image: 
+        background-image:
             radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.15) 0%, transparent 50%),
             radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%) !important;
         opacity: 0.9;
@@ -706,13 +706,13 @@
     .dark .elegant-navbar::after {
         background: linear-gradient(to top, rgba(197, 160, 89, 0.2) 0%, transparent 100%) !important;
         clip-path: polygon(
-            0% 100%, 5% 75%, 12% 90%, 20% 45%, 28% 80%, 35% 20%, 42% 65%, 50% 10%, 
+            0% 100%, 5% 75%, 12% 90%, 20% 45%, 28% 80%, 35% 20%, 42% 65%, 50% 10%,
             58% 85%, 65% 30%, 72% 70%, 80% 15%, 88% 55%, 95% 40%, 100% 100%
         ) !important;
         filter: blur(3px) !important;
         opacity: 0.8;
     }
-    
+
     .dark .elegant-brand-title {
         background: linear-gradient(135deg, #e0e7ff 0%, #93c5fd 50%, #60a5fa 100%);
         -webkit-background-clip: text;
@@ -720,7 +720,7 @@
         background-clip: text;
         text-shadow: 0 0 15px rgba(147, 197, 253, 0.3);
     }
-    
+
     .dark .elegant-brand-subtitle {
         background: linear-gradient(90deg, #cbd5e1, #94a3b8);
         -webkit-background-clip: text;
@@ -744,7 +744,7 @@
     }
 
     /* Softer and smaller typography for Stanford and Oxford themes */
-    
+
     /* Stanford Themes overrides */
     [class*="theme-stanford-grow-"] h1,
     [class*="theme-stanford-grow-"] h2,
@@ -850,7 +850,7 @@
         position: static !important;
         overflow: visible !important;
     }
-    
+
     body.frontend-body main footer::before,
     body.frontend-body main footer::after,
     body.frontend-body main .aurora-footer::before,
