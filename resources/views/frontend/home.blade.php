@@ -8,8 +8,8 @@
     @include('frontend.partials.announcement-bar')
 
     {{-- HERO SLIDER --}}
-    @php 
-        $siteTheme = \App\Models\Setting::get('site_theme', 'aurora-glass-balakutak'); 
+    @php
+        $siteTheme = \App\Models\Setting::get('site_theme', 'aurora-glass-balakutak');
         $premiumThemes = [
             'oxford-luxury-balakutak',
             'oxford-luxury-navygold-balakutak',
@@ -88,7 +88,7 @@
                                     // Check direct path in storage
                                     if (file_exists(public_path('storage/' . $sImg))) {
                                         $imgPath = asset('storage/' . $sImg);
-                                    } 
+                                    }
                                     // Check if it's missing 'media/' prefix but exists there
                                     elseif (file_exists(public_path('storage/media/' . $sImg))) {
                                         $imgPath = asset('storage/media/' . $sImg);
@@ -119,7 +119,7 @@
         <div class="aurora-stats-bar-wrapper">
             <div class="container">
                 <div class="aurora-stats-grid">
-                    @php 
+                    @php
                         $icons = ['fa-user-graduate', 'fa-chalkboard-teacher', 'fa-users', 'fa-microscope', 'fa-book', 'fa-award'];
                     @endphp
                     @foreach($stats as $index => $stat)
@@ -151,7 +151,7 @@
                                                         <div class="swiper-slide">
                                                             <h1 class="lux-hero-title mb-4">{{ $slider->title }}</h1>
                                                             <p class="lux-hero-desc mb-5">{{ $slider->subtitle }}</p>
-                                                            
+
                                                             <div class="d-flex flex-wrap gap-3">
                                                                 <a href="{{ $slider->button_url ?: route('about') }}" class="btn btn-premium">
                                                                     {{ $slider->button_text ?: __('Explore Programmes') }}
@@ -175,7 +175,7 @@
                                                              @endphp
                                                              <h1 class="lux-hero-title mb-4">{!! $luxHeroTitle !!}</h1>
                                                             <p class="lux-hero-desc mb-5">{{ \App\Models\Setting::get('site_tagline', 'Developing the leaders of tomorrow through world-class academic programs and professional excellence.') }}</p>
-                                                            
+
                                                             <div class="d-flex flex-wrap gap-3">
                                                                 <a href="{{ route('about') }}" class="btn btn-premium">
                                                                     {{ __('Explore Programmes') }}
@@ -274,7 +274,7 @@
                 <div class="page-header-pattern"></div>
                 <div class="container py-5 position-relative z-1 text-center" data-aos="zoom-out">
                     {{-- Hero Logo --}}
-                    @php 
+                    @php
                         $logoWhite = \App\Models\Setting::get('site_logo_white');
                         $logoMain = \App\Models\Setting::get('site_logo');
                         $displayLogo = (!$logoWhite || $logoWhite == 'images/logo_white.png') ? $logoMain : $logoWhite;
@@ -289,7 +289,7 @@
                         <div class="col-lg-10 col-xl-8">
                             @php $siteAbbr = \App\Models\Setting::get('site_abbreviation', 'PRODI'); @endphp
                             <span class="badge-theme-pill mb-4 d-inline-block px-4 py-2 uppercase tracking-widest" data-aos="fade-down" data-aos-delay="200">{{ $siteAbbr }}</span>
-                            
+
                             <h1 class="hero-title display-3 fw-bold text-white mb-4 notranslate" translate="no" data-aos="fade-up" data-aos-delay="300">
                                 @php
                                     $layout = \App\Models\Setting::get('site_name_layout', '1');
@@ -303,13 +303,13 @@
                                 @endphp
                                 {!! $defaultHeroTitle !!}
                             </h1>
-                            
+
                             <div class="hero-divider-premium mx-auto mb-4" data-aos="stretch-width" data-aos-delay="400"></div>
 
                             <p class="hero-subtitle lead text-white-50 mb-5 px-lg-5 notranslate" translate="no" data-aos="fade-up" data-aos-delay="500">
                                 {{ Str::limit(\App\Models\Setting::get('site_tagline', __('Unggul, Inovatif, dan Berdaya Saing Global')), 250) }}
                             </p>
-                            
+
                             <div class="d-flex flex-wrap justify-content-center gap-3" data-aos="fade-up" data-aos-delay="600">
                                 <a href="{{ route('about') }}" class="btn btn-primary btn-lg rounded-pill px-5">
                                     {{ __('Selengkapnya') }} <i class="fas fa-arrow-right ms-2"></i>
@@ -321,7 +321,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 {{-- Decorative Blobs for depth --}}
                 <div class="hero-blob hero-blob-1"></div>
                 <div class="hero-blob hero-blob-2"></div>
@@ -379,7 +379,7 @@
                         <h2 class="aurora-greet-title mb-4">
                             {{ \App\Models\Setting::get('greeting_name', __('menu.leader_fallback_name')) }}
                         </h2>
-                        
+
                         <div class="aurora-quote-box mb-4">
                             <i class="fas fa-quote-left aurora-quote-icon"></i>
                             <div class="aurora-quote-text lh-lg" style="text-align:justify;">
@@ -540,10 +540,10 @@
                             <div class="news-bg-image-box h-100 w-100">
                                  <img src="{{ $news->featured_image_url }}" alt="{{ $news->title }}" class="img-fluid w-100 h-100 object-fit-cover transition-all duration-700 immersion-img">
                             </div>
-    
+
                             <!-- Gradient Overlay -->
                             <div class="news-immersion-grad"></div>
-    
+
                             <!-- Content Overlay -->
                             <div class="news-immersion-content p-4 d-flex flex-column justify-content-end h-100 w-100 position-absolute top-0 start-0">
                                     <div class="news-meta-row d-flex align-items-center gap-3 mb-3 text-white small">
@@ -557,13 +557,13 @@
                                             <span>{{ $news->published_at?->format('d M Y') }}</span>
                                         </div>
                                     </div>
-                                
+
                                 <h3 class="news-immersive-title text-white fw-bold {{ ($i === 0) ? 'display-6' : 'h4' }} mb-4">
                                     <a href="{{ route('posts.show', $news->slug) }}" class="text-white text-decoration-none stretched-link transition-all">
                                         {{ Str::limit($news->title, ($i === 0) ? 100 : 70) }}
                                     </a>
                                 </h3>
-    
+
                                 <div class="news-immersive-footer d-flex align-items-center gap-2">
                                     <span class="text-white text-uppercase small fw-bold tracking-widest letter-spacing-2">SELENGKAPNYA</span>
                                     <div class="news-footer-arrow rounded-circle border border-white border-opacity-50 text-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
@@ -821,11 +821,11 @@
         <div class="aurora-cta-pattern"></div>
         <div class="aurora-cta-blob blob-1"></div>
         <div class="aurora-cta-blob blob-2"></div>
-        
+
         <div class="container text-center position-relative z-10 py-5" data-aos="zoom-in">
             <h2 class="aurora-cta-title mb-3">{{ __('menu.cta_title') }}</h2>
             <p class="aurora-cta-subtitle mb-5 lead opacity-85 mx-auto" style="max-width: 700px;">{{ __('menu.cta_subtitle') }}</p>
-            
+
             <div class="d-flex gap-4 justify-content-center flex-wrap">
                 <a href="{{ route('contact.index') }}" class="aurora-btn-premium">
                     <i class="fas fa-info-circle me-2"></i>{{ __('menu.registration_info') }}
@@ -921,9 +921,9 @@ if (document.querySelector('.lux-hero-swiper')) {
             delay: 4500,
             disableOnInteraction: false,
         } : false,
-        navigation: { 
-            nextEl: '.lux-swiper-next', 
-            prevEl: '.lux-swiper-prev' 
+        navigation: {
+            nextEl: '.lux-swiper-next',
+            prevEl: '.lux-swiper-prev'
         },
         effect: 'slide'
     });
