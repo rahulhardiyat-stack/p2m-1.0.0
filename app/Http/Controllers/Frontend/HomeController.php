@@ -62,7 +62,7 @@ class HomeController extends Controller
         else {
             // Fallback default stats if none active
             $stats = [
-                ['label' => __('menu.active_students'), 'value' => 0],
+                ['label' => __('menu.active_students'), 'value' => 1200],
                 ['label' => __('menu.lecturers'), 'value' => Lecturer::active()->dosen()->count()],
                 ['label' => __('menu.alumni'), 'value' => 0],
                 ['label' => __('menu.research'), 'value' => Post::published()->byType('research')->count()],
