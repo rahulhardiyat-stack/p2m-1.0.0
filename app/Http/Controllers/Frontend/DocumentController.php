@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use Illuminate\Http\Request;
-
 class DocumentController extends Controller
 {
     /**

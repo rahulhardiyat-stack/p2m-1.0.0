@@ -385,31 +385,7 @@
             <ul class="navbar-nav ms-auto gap-2 align-items-center">
                 @if(isset($sharedMenus['main-menu']) && $sharedMenus['main-menu']->items->count() > 0)
                     @foreach($sharedMenus['main-menu']->items as $item)
-                        @if($item->children->count() > 0)
-                            <li class="nav-item dropdown">
-                                <a class="nav-link main-nav-link dropdown-toggle px-3 {{ request()->url() == $item->resolved_url ? 'active text-primary' : '' }} {{ $item->css_class }}" href="#" id="menuDrop{{ $item->id }}" data-bs-toggle="dropdown">
-                                    @if($item->icon) <i class="{{ $item->icon }} main-nav-icon me-1"></i> @endif
-                                    {{ $item->label }}
-                                </a>
-                                <ul class="dropdown-menu shadow-lg border-0 elegant-dropdown" aria-labelledby="menuDrop{{ $item->id }}">
-                                    @foreach($item->children as $child)
-                                        <li>
-                                            <a class="dropdown-item elegant-dropdown-item py-2" href="{{ $child->resolved_url }}" target="{{ $child->target }}">
-                                                @if($child->icon) <i class="{{ $child->icon }} me-2 text-primary"></i> @endif
-                                                {{ $child->label }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a class="nav-link main-nav-link px-3 {{ request()->url() == $item->resolved_url ? 'active text-primary' : '' }} {{ $item->css_class }}" href="{{ $item->resolved_url }}" target="{{ $item->target }}">
-                                    @if($item->icon) <i class="{{ $item->icon }} main-nav-icon me-1"></i> @endif
-                                    {{ $item->label }}
-                                </a>
-                            </li>
-                        @endif
+                        @include('frontend.partials.nav-menu-item', ['item' => $item, 'depth' => 0])
                     @endforeach
                 @else
                     {{-- Default Fallback Menu --}}
@@ -657,6 +633,36 @@
         background-color: #f8f9fa;
         color: #0056b3;
         padding-left: 1.8rem; /* Subtle indent effect on hover */
+    }
+
+    .dropdown-submenu {
+        position: relative;
+    }
+
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -0.25rem;
+        margin-left: 0.1rem;
+    }
+
+    .dropdown-submenu > a.dropdown-toggle::after {
+        float: right;
+        margin-top: 0.55rem;
+    }
+
+    @media (min-width: 992px) {
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .dropdown-submenu > .dropdown-menu {
+            position: static;
+            margin-left: 1rem;
+            box-shadow: none !important;
+        }
     }
 
     @keyframes dropFadeUp {

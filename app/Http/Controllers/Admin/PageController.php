@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Document;
+use App\Models\DocumentCategory;
 use App\Models\Gallery;
 
 class PageController extends Controller

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Document;
+use App\Models\DocumentCategory;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $page = \App\Models\Page::where('slug', $slug)->firstOrFail();
 
@@ -19,6 +21,18 @@ class PageController extends Controller
         if ($page->is_builder && $page->builder_data) {
             $data = json_decode($page->builder_data, true);
             $builderCss = $data['css'] ?? '';
+        }
+
+        $documentCategory = DocumentCategory::where('slug', $page->slug)->first();
+        $documents = null;
+
+        if ($documentCategory) {
+            $documents = Document::with('category')
+                ->where('is_public', true)
+                ->where('document_category_id', $documentCategory->id)
+                ->latest()
+                ->paginate(15)
+                ->withQueryString();
         }
 
         // Process dynamic blocks in content
@@ -34,7 +48,9 @@ class PageController extends Controller
         return view('frontend.pages.show', [
             'page' => $page,
             'builderCss' => $builderCss,
-            'processedContent' => $content
+            'processedContent' => $content,
+            'documents' => $documents,
+            'documentCategory' => $documentCategory,
         ]);
     }
 }
