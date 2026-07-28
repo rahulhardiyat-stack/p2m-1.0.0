@@ -41,102 +41,104 @@
                         <img src="{{ asset('storage/' . $page->featured_image) }}" alt="{{ $page->title }}" class="img-fluid rounded-4 shadow-sm w-100" style="max-height: 500px; object-fit: cover;">
                     </div>
                     @endif
+                </div>
 
-                    <div class="page-content bg-white p-4 p-lg-5 rounded-4 shadow-sm border">
-                        <div class="text-dark leading-relaxed">
-                            @safeHtml($processedContent)
+                @if(isset($documents))
+                    <section class="py-5 bg-white">
+                        <div class="container">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+                                <div>
+                                    <h2 class="h4 fw-bold mb-1">Dokumen {{ $documentCategory?->name ?? $page->title }}</h2>
+                                    <p class="text-muted mb-0">Menampilkan dokumen publik pada kategori ini.</p>
+                                </div>
+                                @if($documentCategory)
+                                    <span class="badge bg-soft-primary text-primary px-3 py-2 rounded-pill">
+                            <i class="fas fa-tag me-1"></i> {{ $documentCategory->name }}
+                        </span>
+                                @endif
+                            </div>
+
+                            <div class="table-responsive shadow-lg rounded-4 overflow-hidden border-0">
+                                <table class="table table-hover align-middle mb-0 custom-datatable">
+                                    <thead class="bg-dark bg-gradient text-white">
+                                    <tr>
+                                        <th class="px-4 py-4" style="width: 45%;">Nama Dokumen</th>
+                                        <th class="py-4">Info</th>
+                                        <th class="px-4 py-4 text-end">Aksi</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+                                    @forelse($documents as $doc)
+                                        <tr>
+                                            <td class="px-4 py-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="icon-box me-3 bg-light text-primary shadow-sm">
+                                                        @php
+                                                            $icon = 'fas fa-file-alt';
+                                                            $ext = strtolower($doc->file_type);
+                                                            if($ext == 'pdf') $icon = 'fas fa-file-pdf';
+                                                            elseif(in_array($ext, ['doc', 'docx'])) $icon = 'fas fa-file-word';
+                                                            elseif(in_array($ext, ['xls', 'xlsx'])) $icon = 'fas fa-file-excel';
+                                                            elseif(in_array($ext, ['zip', 'rar'])) $icon = 'fas fa-file-archive';
+                                                            elseif(in_array($ext, ['jpg', 'jpeg', 'png'])) $icon = 'fas fa-file-image';
+                                                        @endphp
+                                                        <i class="{{ $icon }}"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="text-dark fw-bold" style="font-size: 1rem;">{{ $doc->title }}</div>
+                                                        <p class="text-muted small mb-0 line-clamp-1">{{ $doc->description ?: 'Dokumen resmi Program Studi.' }}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="py-3">
+                                                <div class="small text-muted mt-1">
+                                                    <i class="fas fa-hdd me-1 opacity-50"></i> {{ number_format($doc->file_size / 1024, 1) }} KB |
+                                                    <i class="fas fa-calendar-alt me-1 opacity-50"></i> {{ $doc->created_at->format('d/m/Y') }}
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-3 text-end">
+                                                <a href="{{ route('documents.public-download', $doc->id) }}" class="btn btn-sm btn-primary rounded-pill px-2 hover-up shadow-sm">
+                                                    <i class="fas fa-download me-1"></i> Download
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center py-5">
+                                                <div class="py-4">
+                                                    <i class="fas fa-folder-open fa-3x text-muted opacity-20 mb-3"></i>
+                                                    <h5 class="text-muted fw-bold">Belum ada dokumen di kategori ini.</h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="mt-5 d-flex justify-content-center">
+                                {{ $documents->links() }}
+                            </div>
                         </div>
-                    </div>
+                    </section>
+                @endif
 
-                    <div class="text-center mt-5">
-                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary rounded-pill px-5">
-                            <i class="fas fa-arrow-left me-2"></i> {{ __('Kembali') }}
-                        </a>
+                <div class="page-content bg-white p-4 p-lg-5 rounded-4 shadow-sm border">
+                    <div class="text-dark leading-relaxed">
+                        @safeHtml($processedContent)
                     </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <a href="{{ url()->previous() }}" class="btn btn-outline-primary rounded-pill px-5">
+                        <i class="fas fa-arrow-left me-2"></i> {{ __('Kembali') }}
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    @if(isset($documents))
-        <section class="py-5 bg-white">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
-                    <div>
-                        <h2 class="h4 fw-bold mb-1">Dokumen {{ $documentCategory?->name ?? $page->title }}</h2>
-                        <p class="text-muted mb-0">Menampilkan dokumen publik pada kategori ini.</p>
-                    </div>
-                    @if($documentCategory)
-                        <span class="badge bg-soft-primary text-primary px-3 py-2 rounded-pill">
-                            <i class="fas fa-tag me-1"></i> {{ $documentCategory->name }}
-                        </span>
-                    @endif
-                </div>
 
-                <div class="table-responsive shadow-lg rounded-4 overflow-hidden border-0">
-                    <table class="table table-hover align-middle mb-0 custom-datatable">
-                        <thead class="bg-dark bg-gradient text-white">
-                        <tr>
-                            <th class="px-4 py-4" style="width: 45%;">Nama Dokumen</th>
-                            <th class="py-4">Info</th>
-                            <th class="px-4 py-4 text-end">Aksi</th>
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white">
-                        @forelse($documents as $doc)
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-box me-3 bg-light text-primary shadow-sm">
-                                            @php
-                                                $icon = 'fas fa-file-alt';
-                                                $ext = strtolower($doc->file_type);
-                                                if($ext == 'pdf') $icon = 'fas fa-file-pdf';
-                                                elseif(in_array($ext, ['doc', 'docx'])) $icon = 'fas fa-file-word';
-                                                elseif(in_array($ext, ['xls', 'xlsx'])) $icon = 'fas fa-file-excel';
-                                                elseif(in_array($ext, ['zip', 'rar'])) $icon = 'fas fa-file-archive';
-                                                elseif(in_array($ext, ['jpg', 'jpeg', 'png'])) $icon = 'fas fa-file-image';
-                                            @endphp
-                                            <i class="{{ $icon }}"></i>
-                                        </div>
-                                        <div>
-                                            <div class="text-dark fw-bold" style="font-size: 1rem;">{{ $doc->title }}</div>
-                                            <p class="text-muted small mb-0 line-clamp-1">{{ $doc->description ?: 'Dokumen resmi Program Studi.' }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-3">
-                                    <div class="small text-muted mt-1">
-                                        <i class="fas fa-hdd me-1 opacity-50"></i> {{ number_format($doc->file_size / 1024, 1) }} KB |
-                                        <i class="fas fa-calendar-alt me-1 opacity-50"></i> {{ $doc->created_at->format('d/m/Y') }}
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3 text-end">
-                                    <a href="{{ route('documents.public-download', $doc->id) }}" class="btn btn-sm btn-primary rounded-pill px-2 hover-up shadow-sm">
-                                        <i class="fas fa-download me-1"></i> Download
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="text-center py-5">
-                                    <div class="py-4">
-                                        <i class="fas fa-folder-open fa-3x text-muted opacity-20 mb-3"></i>
-                                        <h5 class="text-muted fw-bold">Belum ada dokumen di kategori ini.</h5>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="mt-5 d-flex justify-content-center">
-                    {{ $documents->links() }}
-                </div>
-            </div>
-        </section>
-    @endif
 
 
 
