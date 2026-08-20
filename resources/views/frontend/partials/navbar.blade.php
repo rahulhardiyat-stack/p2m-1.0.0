@@ -421,7 +421,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarMain">
-            <ul class="navbar-nav ms-auto gap-2 align-items-center">
+            <ul class="navbar-nav ms-auto gap-0.5 align-items-center">
                 @if(isset($sharedMenus['main-menu']) && $sharedMenus['main-menu']->items->count() > 0)
                     @foreach($sharedMenus['main-menu']->items as $item)
                         @include('frontend.partials.nav-menu-item', ['item' => $item, 'depth' => 0])

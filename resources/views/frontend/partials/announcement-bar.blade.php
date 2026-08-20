@@ -40,7 +40,7 @@ $announcements = \App\Models\Announcement::where('is_published', true)
         font-family: 'Poppins', sans-serif;
         font-size: 1.1rem; /* Ukuran font lebih besar */
         transition: all 10.5s ease;
-        z-index: 50; /* Z-index tinggi agar di atas slider */
+        z-index: -1; /* Z-index tinggi agar di atas slider */
         position: relative;
         overflow: hidden;
     }
