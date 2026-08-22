@@ -8,16 +8,39 @@
                     @php 
                         $logoWhite = \App\Models\Setting::get('site_logo_white');
                         $logoMain = \App\Models\Setting::get('site_logo');
-                        
-                        // Use white logo if configured, fallback to main logo
-                        if (!$logoWhite) {
-                            $logo = $logoMain;
-                        } else {
-                            $logo = $logoWhite;
-                        }
+
+                        $logoUrl = function ($path) {
+                            if (!$path) {
+                                return null;
+                            }
+
+                            $path = ltrim($path, '/');
+
+                            if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+                                return $path;
+                            }
+
+                            if (str_starts_with($path, 'storage/')) {
+                                return file_exists(public_path($path)) ? asset($path) : null;
+                            }
+
+                            if (file_exists(public_path('storage/' . $path))) {
+                                return asset('storage/' . $path);
+                            }
+
+                            if (file_exists(public_path($path))) {
+                                return asset($path);
+                            }
+
+                            return null;
+                        };
+
+                        $displayLogoUrl = $logoUrl($logoWhite)
+                            ?? $logoUrl($logoMain)
+                            ?? asset('images/logo.png');
                     @endphp
-                    @if($logo)
-                        <img src="{{ asset('storage/'.$logo) }}" height="50" alt="Logo" class="notranslate" translate="no">
+                    @if($displayLogoUrl)
+                        <img src="{{ $displayLogoUrl }}" height="50" alt="Logo" class="notranslate" translate="no">
                     @else
                         <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white shadow-sm" style="width:45px;height:45px">
                             <i class="fas fa-graduation-cap"></i>

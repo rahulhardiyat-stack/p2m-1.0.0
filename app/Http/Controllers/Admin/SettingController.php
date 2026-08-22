@@ -10,6 +10,57 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
+    private function normalizePublicPath(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        $path = str_replace('\\', '/', ltrim($path, '/'));
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return null;
+        }
+
+        return str_starts_with($path, 'storage/')
+            ? substr($path, strlen('storage/'))
+            : $path;
+    }
+
+    private function mirrorPublicDiskFile(?string $path): void
+    {
+        $path = $this->normalizePublicPath($path);
+
+        if (!$path || !Storage::disk('public')->exists($path)) {
+            return;
+        }
+
+        $source = Storage::disk('public')->path($path);
+        $target = public_path('storage/' . $path);
+        $directory = dirname($target);
+
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        copy($source, $target);
+    }
+
+    private function deleteMirroredPublicDiskFile(?string $path): void
+    {
+        $path = $this->normalizePublicPath($path);
+
+        if (!$path) {
+            return;
+        }
+
+        $target = public_path('storage/' . $path);
+
+        if (is_file($target)) {
+            unlink($target);
+        }
+    }
+
     public function index()
     {
         $settings = Setting::where('group', 'general')->pluck('value', 'key');
@@ -46,6 +97,7 @@ class SettingController extends Controller
                 // New file uploaded for this index?
                 if (!empty($files[$i]) && $files[$i]->isValid()) {
                     $path = $files[$i]->store('settings/certs', 'public');
+                    $this->mirrorPublicDiskFile($path);
                 }
                 else {
                     // Keep existing path if available
@@ -70,6 +122,7 @@ class SettingController extends Controller
                 if ($oldPath && Storage::disk('public')->exists($oldPath)) {
                     Storage::disk('public')->delete($oldPath);
                 }
+                $this->deleteMirroredPublicDiskFile($oldPath);
                 Setting::set($settingKey, null);
                 $skip[] = $reqKey; // Skip this from the main loop
                 $skip[] = $settingKey; // Also skip the original key if it's in the request (it shouldn't be for files, but just in case)
@@ -83,8 +136,10 @@ class SettingController extends Controller
                 if ($oldPath && Storage::disk('public')->exists($oldPath)) {
                     Storage::disk('public')->delete($oldPath);
                 }
+                $this->deleteMirroredPublicDiskFile($oldPath);
                 
                 $path = $request->file($key)->store('settings', 'public');
+                $this->mirrorPublicDiskFile($path);
                 Setting::set($key, $path);
             }
             else {
