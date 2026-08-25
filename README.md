@@ -1,4 +1,4 @@
-# <img src="database/seeders/assets/images/logo.png" width="45" align="center" /> BalaKutaK CMS
+/# <img src="database/seeders/assets/images/logo.png" width="45" align="center" /> BalaKutaK CMS
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Laravel Version](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
