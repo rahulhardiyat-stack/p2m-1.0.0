@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Sedang Perbaikan</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        h1 { font-size: 50px; color: #333; }
-        p { font-size: 20px; color: #666; }
-    </style>
 </head>
 <body>
-<h1>Situs Kami Sedang Dalam Pemeliharaan</h1>
-<p>Mohon kunjungi beberapa saat lagi. Kami sedang meningkatkan layanan.</p>
+<p>hai</p>
+<img src="{{ asset('http://127.0.0.1:8000/storage/media/6a96f1c85e74b_1788277192.png') }}" alt="Maintenance" style="max-width: 100%; height: auto;">
 </body>
 </html>

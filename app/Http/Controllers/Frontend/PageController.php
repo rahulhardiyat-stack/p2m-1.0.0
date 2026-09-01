@@ -44,8 +44,8 @@ class PageController extends Controller
             }
             return '<!-- Dynamic block type not found: ' . $type . ' -->';
         }, $content);
-
-        return view('frontend.pages.show', [
+        //test halaman statik
+        return view('frontend.pages.show-test', [
             'page' => $page,
             'builderCss' => $builderCss,
             'processedContent' => $content,
