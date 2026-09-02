@@ -2009,6 +2009,11 @@ pre code {
   -webkit-overflow-scrolling: touch;
 }
 
+.overlap-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
 .table-responsive > .table-bordered {
   border: 0;
 }
