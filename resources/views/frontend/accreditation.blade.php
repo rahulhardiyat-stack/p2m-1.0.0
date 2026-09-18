@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-md-3 d-grid">
                         <button type="submit" class="btn btn-success rounded-pill fw-bold py-2 shadow-sm">
-                            <i class="fas fa-filter me-2 text-white-50"></i> Filter Data
+                            <i class="fas fa-filter me-2 text-white-50"></i> Filter
                         </button>
                     </div>
                     @if(request('q') || request('year'))
