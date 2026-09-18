@@ -25,7 +25,7 @@
             <div class="filter-card shadow-sm mb-5 p-4 rounded-4 bg-white border border-light">
                 <form action="{{ route('accreditation') }}" method="GET" class="row g-3 align-items-end">
                     <div class="col-md-3">
-                        <label class="form-label small fw-bold text-muted text-uppercase letter-spacing-1">Cari Prodi...</label>
+                        <label class="form-label small fw-bold text-muted text-uppercase letter-spacing-1">Cari Prodi..</label>
                         <div class="input-group search-group">
                             <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-success"></i></span>
                             <input type="text" name="q" class="form-control border-start-0" placeholder="Ketik kata kunci..." value="{{ request('q') }}">
