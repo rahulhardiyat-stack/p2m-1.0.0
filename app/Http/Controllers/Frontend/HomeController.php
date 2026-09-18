@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Event;
+use App\Models\Gallery;
 use App\Models\Slider;
 use App\Models\Lecturer;
 use App\Models\Announcement;
@@ -30,6 +31,29 @@ class HomeController extends Controller
         $sliders = Slider::where('is_active', true)->orderBy('order')->get();
         $latestNews = Post::with('category')->published()->whereIn('type', ['news', 'post'])->latest('published_at')->take(5)->get();
         $latestArticles = Post::with('category')->published()->byType('post')->latest('published_at')->take(3)->get();
+        $locale = app()->getLocale();
+        $fallbackLocale = 'id';
+        $latestVideoQuery = Gallery::with('event')
+            ->where('is_active', true)
+            ->where('type', 'video')
+            ->whereNotNull('youtube_id');
+        $hasLocaleVideos = (clone $latestVideoQuery)->where('language', $locale)->exists();
+
+        $latestVideos = $latestVideoQuery
+            ->where(function ($q) use ($locale, $fallbackLocale, $hasLocaleVideos) {
+                if ($hasLocaleVideos) {
+                    $q->where('language', $locale);
+                    return;
+                }
+
+                $q->where('language', $fallbackLocale)
+                    ->orWhereNull('language')
+                    ->orWhere('language', '');
+            })
+            ->orderBy('order')
+            ->latest()
+            ->take(8)
+            ->get();
         $upcomingEvents = Event::where('is_published', true)
             ->where('start_date', '>=', now())
             ->orderBy('start_date')
@@ -71,7 +95,8 @@ class HomeController extends Controller
 
         return view('frontend.home', compact(
             'sliders', 'latestNews', 'latestArticles', 'upcomingEvents',
-            'announcements', 'testimonials', 'partners', 'stats', 'activeInfographic'
+            'announcements', 'testimonials', 'partners', 'stats', 'activeInfographic',
+            'latestVideos'
         ));
     }
 

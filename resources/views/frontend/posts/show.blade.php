@@ -97,12 +97,56 @@
                     @endif
 
                     {{-- Share --}}
-                    <div class="mt-5 p-4 bg-light rounded-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <span class="fw-bold"><i class="fas fa-share-alt me-2"></i>Bagikan Artikel:</span>
-                        <div class="share-buttons d-flex gap-2">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" class="btn btn-primary rounded-circle" style="width: 40px; height: 40px; padding: 0; line-height: 40px;"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}" target="_blank" class="btn btn-info text-white rounded-circle" style="width: 40px; height: 40px; padding: 0; line-height: 40px;"><i class="fab fa-twitter"></i></a>
-                            <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' ' . request()->fullUrl()) }}" target="_blank" class="btn btn-success rounded-circle" style="width: 40px; height: 40px; padding: 0; line-height: 40px;"><i class="fab fa-whatsapp"></i></a>
+                    @php
+                        $shareUrl = request()->fullUrl();
+                        $shareTitle = $post->title;
+                        $shareText = $shareTitle . ' ' . $shareUrl;
+                        $shareLinks = [
+                            [
+                                'label' => 'Facebook',
+                                'icon' => 'fab fa-facebook-f',
+                                'color' => 'text-primary',
+                                'url' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl),
+                            ],
+                            [
+                                'label' => 'X',
+                                'icon' => 'fab fa-x-twitter',
+                                'color' => 'text-dark',
+                                'url' => 'https://twitter.com/intent/tweet?url=' . urlencode($shareUrl) . '&text=' . urlencode($shareTitle),
+                            ],
+                            [
+                                'label' => 'WhatsApp',
+                                'icon' => 'fab fa-whatsapp',
+                                'color' => 'text-success',
+                                'url' => 'https://api.whatsapp.com/send?text=' . urlencode($shareText),
+                            ],
+                            [
+                                'label' => 'Telegram',
+                                'icon' => 'fab fa-telegram',
+                                'color' => 'text-info',
+                                'url' => 'https://t.me/share/url?url=' . urlencode($shareUrl) . '&text=' . urlencode($shareTitle),
+                            ],
+                            [
+                                'label' => 'LinkedIn',
+                                'icon' => 'fab fa-linkedin-in',
+                                'color' => 'text-primary',
+                                'url' => 'https://www.linkedin.com/sharing/share-offsite/?url=' . urlencode($shareUrl),
+                            ],
+                        ];
+                    @endphp
+                    <div class="mt-5 p-4 bg-light rounded-4">
+                        <span class="fw-bold d-block mb-3">Bagikan Artikel:</span>
+                        <div class="share-buttons d-flex align-items-center flex-wrap gap-2">
+                            @foreach($shareLinks as $share)
+                                <a href="{{ $share['url'] }}" target="_blank" rel="noopener" class="btn btn-white border shadow-sm rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2" aria-label="Bagikan ke {{ $share['label'] }}" title="{{ $share['label'] }}">
+                                    <i class="{{ $share['icon'] }} {{ $share['color'] }}"></i>
+                                    <span class="fw-semibold">{{ $share['label'] }}</span>
+                                </a>
+                            @endforeach
+                            <button type="button" class="btn btn-white border shadow-sm rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2 copy-article-link" data-share-url="{{ $shareUrl }}">
+                                <i class="fas fa-link text-secondary"></i>
+                                <span class="fw-semibold">Salin Tautan</span>
+                            </button>
                         </div>
                     </div>
                 </article>
@@ -197,4 +241,26 @@
         border-radius: 0 1rem 1rem 0; 
     }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+document.querySelectorAll('.copy-article-link').forEach((button) => {
+    button.addEventListener('click', async () => {
+        const url = button.dataset.shareUrl;
+        const label = button.querySelector('span');
+        const originalText = label.textContent;
+
+        try {
+            await navigator.clipboard.writeText(url);
+            label.textContent = 'Tautan Disalin';
+            setTimeout(() => {
+                label.textContent = originalText;
+            }, 1800);
+        } catch (error) {
+            window.prompt('Salin tautan artikel:', url);
+        }
+    });
+});
+</script>
 @endpush

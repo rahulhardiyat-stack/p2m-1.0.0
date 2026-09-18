@@ -86,7 +86,7 @@
                                                     </div>
                                                     <div>
                                                         <div class="text-dark fw-bold" style="font-size: 1rem;">{{ $doc->title }}</div>
-                                                        <p class="text-muted small mb-0 line-clamp-1">{{ $doc->description ?: 'Dokumen resmi Program Studi.' }}</p>
+                                                        <p class="text-muted small mb-0 line-clamp-1">{{ $doc->description ?: 'Dokumen resmi Pusat Penjaminan Mutu' }}</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -97,9 +97,21 @@
                                                 </div>
                                             </td>
                                             <td class="px-4 py-3 text-end">
-                                                <a href="{{ route('documents.public-download', $doc->id) }}" class="btn btn-sm btn-primary rounded-pill px-2 hover-up shadow-sm">
-                                                    <i class="fas fa-download me-1"></i> Download
-                                                </a>
+                                                <!--tambah pratinjau-->
+                                                @php
+                                                    $fileUrl = asset('storage/'.$doc->file_path);
+                                                    $docExt = strtolower($doc->file_type);
+                                                    $previewType = in_array($docExt, ['jpg', 'jpeg', 'png', 'webp']) ? 'image' : ($docExt === 'pdf' ? 'pdf' : 'unknown');
+                                                @endphp
+                                                <div class="d-flex justify-content-end gap-2 flex-wrap">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 hover-up shadow-sm" data-bs-toggle="modal" data-bs-target="#documentPreviewModal" data-file-url="{{ $fileUrl }}" data-file-name="{{ $doc->title }}" data-file-type="{{ $previewType }}">
+                                                        <i class="fas fa-eye me-1"></i> Lihat
+                                                    </button>
+                                                    <a href="{{ route('documents.public-download', $doc->id) }}" class="btn btn-sm btn-outline-primary rounded-pill px-4 hover-up shadow-sm">
+                                                        <i class="fas fa-download me-1"></i> Unduh
+                                                    </a>
+                                                </div>
+                                                <!---->
                                             </td>
                                         </tr>
                                     @empty
@@ -138,6 +150,25 @@
         </div>
     </section>
 
+ <div class="modal fade" id="documentPreviewModal" tabindex="-1" aria-labelledby="documentPreviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+                <div class="modal-header border-0 bg-light py-3 px-4 d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title fw-bold text-dark" id="documentPreviewModalLabel">Pratinjau Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="box-shadow: none;"></button>
+                </div>
+                <div class="modal-body p-0 bg-dark d-flex align-items-center justify-content-center" style="min-height: 400px; max-height: 80vh; overflow: auto;">
+                    <div id="documentPreviewContent" class="w-100 h-100 d-flex align-items-center justify-content-center p-3"></div>
+                </div>
+                <div class="modal-footer border-0 bg-light py-3 px-4 d-flex justify-content-between align-items-center">
+                    <span class="text-muted small fw-bold" id="documentPreviewFooterName">Nama Dokumen</span>
+                    <a href="#" id="documentPreviewDownloadBtn" download class="btn btn-primary rounded-pill px-4 btn-sm fw-bold shadow-sm">
+                        <i class="fas fa-download me-1"></i> Unduh Dokumen
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -154,4 +185,35 @@
     .page-content img { max-width: 100%; height: auto; border-radius: 1rem; margin-top: 1rem; margin-bottom: 2rem; }
     .page-content h2, .page-content h3, .page-content h4 { font-weight: 700; color: #1e3c72; margin-top: 2rem; margin-bottom: 1rem; }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const documentPreviewModal = document.getElementById('documentPreviewModal');
+        if (!documentPreviewModal) return;
+
+        documentPreviewModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const fileUrl = button.getAttribute('data-file-url');
+            const fileName = button.getAttribute('data-file-name');
+            const fileType = button.getAttribute('data-file-type');
+            const contentContainer = document.getElementById('documentPreviewContent');
+            const footerName = document.getElementById('documentPreviewFooterName');
+            const downloadBtn = document.getElementById('documentPreviewDownloadBtn');
+
+            footerName.textContent = fileName;
+            downloadBtn.setAttribute('href', fileUrl);
+            contentContainer.innerHTML = '<div class="text-white py-5"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+
+            if (fileType === 'pdf') {
+                contentContainer.innerHTML = `<iframe src="${fileUrl}" class="w-100" style="height: 70vh; border: none; border-radius: 8px;"></iframe>`;
+            } else if (fileType === 'image') {
+                contentContainer.innerHTML = `<img src="${fileUrl}" alt="${fileName}" class="img-fluid" style="max-height: 70vh; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">`;
+            } else {
+                contentContainer.innerHTML = `<div class="text-center text-white p-5"><i class="fas fa-file-alt fa-3x mb-3"></i><h5 class="fw-bold mb-2">Pratinjau tidak tersedia</h5><p class="mb-0 text-white-50">Silakan unduh dokumen untuk membuka file ini.</p></div>`;
+            }
+        });
+    });
+</script>
 @endpush

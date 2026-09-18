@@ -331,6 +331,45 @@
         document.addEventListener('webkitfullscreenchange', updateFsIcon);
         document.addEventListener('mozfullscreenchange', updateFsIcon);
         document.addEventListener('MSFullscreenChange', updateFsIcon);
+
+        // Submenu handling for mobile/touch
+        const submenus = document.querySelectorAll('.dropdown-submenu > [data-menu-submenu-toggle="true"]');
+        const closeSubmenu = (submenu) => {
+            submenu.classList.remove('show');
+            submenu.querySelector(':scope > [data-menu-submenu-toggle="true"]')?.setAttribute('aria-expanded', 'false');
+            submenu.querySelectorAll('.dropdown-submenu.show').forEach(closeSubmenu);
+        };
+
+        submenus.forEach(function(submenu) {
+            submenu.addEventListener('click', function(e) {
+                if (window.innerWidth < 992) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const parent = this.closest('.dropdown-submenu');
+                    const shouldOpen = !parent.classList.contains('show');
+
+                    parent.parentElement.querySelectorAll(':scope > .dropdown-submenu.show').forEach(sibling => {
+                        if (sibling !== parent) {
+                            closeSubmenu(sibling);
+                        }
+                    });
+
+                    parent.classList.toggle('show', shouldOpen);
+                    this.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+
+                    if (!shouldOpen) {
+                        parent.querySelectorAll(':scope > .dropdown-menu .dropdown-submenu.show').forEach(closeSubmenu);
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('#navbarMain > .navbar-nav > .dropdown').forEach(function(dropdown) {
+            dropdown.addEventListener('hidden.bs.dropdown', function() {
+                this.querySelectorAll('.dropdown-submenu.show').forEach(closeSubmenu);
+            });
+        });
     });
 </script>
 
@@ -662,6 +701,10 @@
             position: static;
             margin-left: 1rem;
             box-shadow: none !important;
+            display: none;
+        }
+        .dropdown-submenu.show > .dropdown-menu {
+            display: block;
         }
     }
 

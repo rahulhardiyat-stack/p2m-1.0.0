@@ -333,6 +333,87 @@
                 <div class="floating-icon icon-3"><i class="fas fa-globe"></i></div>
             </div>
             @endif
+            
+    {{-- LATEST VIDEO NEWS --}}
+    @if($latestVideos->count() > 0)
+    <section class="section-video-news py-5">
+        <div class="container">
+            <div class="row align-items-end mb-4" data-aos="fade-up">
+                <div class="col-lg-8">
+                    @if($isPremium)
+                        <div class="lux-section-header mb-0">
+                            <span class="lux-section-tagline">VIDEO TERBARU</span>
+                        </div>
+                    @else
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <div class="header-accent-line bg-theme-accent"></div>
+                            <span class="text-uppercase tracking-widest small fw-bold text-muted" style="letter-spacing: 3px;">VIDEO TERBARU</span>
+                        </div>
+                    @endif
+                </div>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <div class="d-flex align-items-center justify-content-lg-end gap-3">
+                        @if($latestVideos->count() > 3)
+                            <div class="video-news-nav d-none d-lg-flex align-items-center gap-2">
+                                <button type="button" class="video-news-prev" aria-label="Video sebelumnya">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button type="button" class="video-news-next" aria-label="Video berikutnya">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        @endif
+                        <a href="{{ route('gallery.index', ['type' => 'video']) }}" class="btn @if($isPremium) btn-premium @else btn-white shadow-sm rounded-4 @endif px-4 py-3 d-inline-flex align-items-center gap-3">
+                            <span>Lihat Semua Video</span>
+                            <i class="fas fa-arrow-right small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper video-news-swiper" data-aos="fade-up">
+                <div class="swiper-wrapper pb-4">
+                    @foreach($latestVideos as $video)
+                        @php
+                            $videoWatchUrl = $video->youtube_url ?: 'https://www.youtube.com/watch?v=' . $video->youtube_id;
+                            $videoTitleUrl = ($video->event && $video->event->is_published)
+                                ? route('events.show', $video->event->slug)
+                                : $videoWatchUrl;
+                        @endphp
+                        <div class="swiper-slide h-auto">
+                            <article class="video-news-card h-100">
+                                <a href="{{ $videoWatchUrl }}" target="_blank" rel="noopener" class="video-news-thumb d-block" aria-label="Tonton {{ $video->title }}">
+                                    <img src="https://img.youtube.com/vi/{{ $video->youtube_id }}/hqdefault.jpg" alt="{{ $video->title }}" loading="lazy">
+                                    <span class="video-news-play">
+                                        <i class="fas fa-play"></i>
+                                    </span>
+                                </a>
+                                <div class="video-news-body">
+                                    <div class="video-news-meta">
+                                        <span><i class="fas fa-video me-1"></i>{{ $video->album ?: 'Video Berita' }}</span>
+                                        <span><i class="far fa-calendar-alt me-1"></i>{{ $video->created_at?->format('d M Y') }}</span>
+                                    </div>
+                                    <h3 class="video-news-title">
+                                        @if($video->event && $video->event->is_published)
+                                            <a href="{{ $videoTitleUrl }}">{{ Str::limit($video->title, 78) }}</a>
+                                        @else
+                                            <a href="{{ $videoTitleUrl }}" target="_blank" rel="noopener">{{ Str::limit($video->title, 78) }}</a>
+                                        @endif
+                                    </h3>
+                                    @if($video->caption)
+                                        <p class="video-news-caption">{{ Str::limit(strip_tags($video->caption), 100) }}</p>
+                                    @endif
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="swiper-pagination video-news-pagination"></div>
+            </div>
+        </div>
+    </section>
+    @endif
+
 
             {{-- Stats Bar --}}
             <div class="stats-bar">
@@ -426,8 +507,24 @@
         </div>
     </section>
 
+    <section class="section-testimonials py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <div class="section-badge text-primary text-center justify-content-center fw-semibold mb-2">
+                    <i class="fas fa-comments me-2"></i>{{ __('menu.structure_organization') }}
+                </div>
+                <!-- Ditambahkan overflow-hidden dan rounded-4 pada wrapper -->
+                <div class="lux-news-img-wrap h-100 full-width-chart rounded-4 overflow-hidden shadow-sm">
+                    <img src="https://p2m.staindirundeng.ac.id/storage/media/6a6c63018d29c_1785488129.png"
+                         alt="{{ __('menu.structure_organization') }}"
+                         class="img-fluid w-100 h-auto object-fit-cover transition-all duration-700 immersion-img rounded-4">
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- LATEST NEWS --}}
-    <section class="section-news py-5">
+    <section class="section-news py-2">
         <div class="container">
             <div class="row align-items-end mb-5" data-aos="fade-up">
                 <div class="col-lg-8">
@@ -706,7 +803,7 @@
                 </div>
             @else
                 <div class="text-center mb-5" data-aos="fade-up">
-                    <div class="section-badge text-primary fw-semibold mb-2"><i class="fas fa-comments me-2"></i>{{ __('menu.testimonial') }}</div>
+                    <div class="section-badge text-primary text-center justify-content-center fw-semibold mb-2"><i class="fas fa-comments me-2"></i>{{ __('menu.testimonial') }}</div>
                     <h2 class="fw-bold"><i class="fas fa-user-graduate me-2 text-primary"></i>{{ __('menu.alumni_says') }}</h2>
                 </div>
                 <div class="swiper testimonial-swiper" data-aos="fade-up">
@@ -839,6 +936,162 @@
 
 @endsection
 
+@push('styles')
+<style>
+.section-video-news {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    overflow: hidden;
+}
+
+.video-news-swiper {
+    overflow: visible;
+}
+
+.video-news-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.video-news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+}
+
+.video-news-thumb {
+    aspect-ratio: 16 / 9;
+    background: #0f172a;
+    overflow: hidden;
+    position: relative;
+}
+
+.video-news-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+}
+
+.video-news-card:hover .video-news-thumb img {
+    transform: scale(1.04);
+}
+
+.video-news-thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0) 35%, rgba(15, 23, 42, .55) 100%);
+}
+
+.video-news-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .94);
+    color: var(--bs-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 12px 34px rgba(15, 23, 42, .24);
+}
+
+.video-news-play i {
+    margin-left: 3px;
+}
+
+.video-news-body {
+    padding: 1.25rem;
+}
+
+.video-news-meta {
+    align-items: center;
+    color: #64748b;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: .78rem;
+    font-weight: 700;
+    gap: .85rem;
+    margin-bottom: .75rem;
+    text-transform: uppercase;
+}
+
+.video-news-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.video-news-title a {
+    color: #0f172a;
+    text-decoration: none;
+}
+
+.video-news-title a:hover {
+    color: var(--bs-primary);
+}
+
+.video-news-caption {
+    color: #64748b;
+    font-size: .92rem;
+    line-height: 1.65;
+    margin: .75rem 0 0;
+}
+
+.video-news-prev,
+.video-news-next {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(15, 23, 42, .12);
+    border-radius: 50%;
+    background: #ffffff;
+    color: #0f172a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.video-news-prev:hover,
+.video-news-next:hover {
+    background: var(--bs-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.video-news-pagination {
+    position: static;
+}
+
+.video-news-pagination .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+}
+
+.video-news-pagination .swiper-pagination-bullet-active {
+    background: var(--bs-primary);
+}
+
+@media (max-width: 575.98px) {
+    .video-news-body {
+        padding: 1rem;
+    }
+
+    .video-news-title {
+        font-size: 1rem;
+    }
+}
+</style>
+@endpush
+
 @push('scripts')
 <script>
 // Hero Swiper (Standard)
@@ -932,6 +1185,30 @@ if (document.querySelector('.lux-hero-swiper')) {
         luxImgSwiper.controller.control = luxTextSwiper;
         luxTextSwiper.controller.control = luxImgSwiper;
     }
+}
+
+// Video News Swiper
+if (document.querySelector('.video-news-swiper')) {
+    const totalVideoSlides = document.querySelectorAll('.video-news-swiper .swiper-slide').length;
+
+    new Swiper('.video-news-swiper', {
+        slidesPerView: 1.08,
+        spaceBetween: 18,
+        loop: totalVideoSlides > 3,
+        grabCursor: true,
+        pagination: {
+            el: '.video-news-swiper .video-news-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.video-news-next',
+            prevEl: '.video-news-prev'
+        },
+        breakpoints: {
+            576: { slidesPerView: 2, spaceBetween: 20 },
+            992: { slidesPerView: 3, spaceBetween: 24 }
+        }
+    });
 }
 
 // Testimonial Swiper

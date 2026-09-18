@@ -206,6 +206,9 @@ Route::group([
     Route::get('/kontak', [ContactController::class , 'index'])->name('contact.index');
     Route::post('/kontak', [ContactController::class , 'store'])->name('contact.store');
     Route::get('/cari', [FrontInfoPageController::class , 'search'])->name('search');
+
+    // testing
+    Route::get('/akreditasi', [FrontInfoPageController::class , 'accreditation'] )->name('accreditation');
     // Sitemap & Robots
     Route::get('/sitemap.xml', [HomeController::class , 'sitemap'])->name('sitemap');
     Route::get('/robots.txt', [HomeController::class , 'robots'])->name('robots');

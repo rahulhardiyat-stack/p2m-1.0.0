@@ -40,6 +40,14 @@
     <div class="container">
         <div class="row g-4" id="gallery-grid">
             @forelse($items as $item)
+            @php
+                $photoExists = $item->type === 'photo'
+                    && $item->file_path
+                    && \Illuminate\Support\Facades\Storage::disk('public')->exists($item->file_path);
+                $itemUrl = $item->type === 'video'
+                    ? ($item->youtube_url ?: 'https://www.youtube.com/watch?v=' . $item->youtube_id)
+                    : ($photoExists ? asset('storage/' . $item->file_path) : null);
+            @endphp
             <div class="col-sm-6 col-md-4 col-lg-3" data-aos="zoom-in" data-aos-delay="{{ $loop->iteration * 50 }}">
                 <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden gallery-card">
                     <div class="position-relative overflow-hidden">
@@ -49,13 +57,22 @@
                             <i class="fas fa-play-circle fa-4x text-white opacity-75"></i>
                         </div>
                         @else
-                        <img src="{{ asset('storage/' . $item->file_path) }}" class="card-img-top transition-zoom" alt="{{ $item->title }}" style="height: 200px; object-fit: cover;">
+                            @if($photoExists)
+                                <img src="{{ $itemUrl }}" class="card-img-top transition-zoom" alt="{{ $item->title }}" style="height: 200px; object-fit: cover;">
+                            @else
+                                <div class="gallery-image-placeholder d-flex flex-column align-items-center justify-content-center text-center">
+                                    <i class="fas fa-image mb-2"></i>
+                                    <span>Foto tidak tersedia</span>
+                                </div>
+                            @endif
                         @endif
-                        
+
                         <div class="gallery-overlay d-flex flex-column justify-content-end p-3">
                             <h6 class="text-white fw-bold mb-1">{{ $item->title }}</h6>
                             <small class="text-white-50">{{ $item->album ?: ($item->type === 'video' ? __('Video') : __('Foto')) }}</small>
-                            <a href="{{ $item->type === 'video' ? $item->youtube_url : asset('storage/' . $item->file_path) }}" class="stretched-link gallery-lightbox" data-type="{{ $item->type }}" title="{{ $item->title }}"></a>
+                            @if($itemUrl)
+                                <a href="{{ $itemUrl }}" class="stretched-link gallery-lightbox" data-type="{{ $item->type }}" title="{{ $item->title }}"></a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -83,6 +100,17 @@
     .gallery-card { cursor: pointer; }
     .transition-zoom { transition: transform 0.5s ease; }
     .gallery-card:hover .transition-zoom { transform: scale(1.1); }
+    .gallery-image-placeholder {
+        background: linear-gradient(135deg, #e2e8f0, #f8fafc);
+        color: #64748b;
+        height: 200px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+    .gallery-image-placeholder i {
+        font-size: 2rem;
+        opacity: .7;
+    }
     .gallery-overlay {
         position: absolute;
         top: 0;

@@ -58,11 +58,11 @@ class FrontPageController extends Controller
     {
         $page = \App\Models\Page::where('slug', 'penelitian')->first();
         $query = ResearchService::where('type', 'research')->where('is_active', true);
-        
+
         if ($request->filled('q')) {
             $query->where(fn($q) => $q->where('title', 'like', "%{$request->q}%")->orWhere('author', 'like', "%{$request->q}%"));
         }
-        
+
         if ($request->filled('year')) {
             $query->where('year', $request->year);
         }
@@ -75,11 +75,12 @@ class FrontPageController extends Controller
     {
         $page = \App\Models\Page::where('slug', 'pengabdian')->first();
         $query = ResearchService::where('type', 'community_service')->where('is_active', true);
-        
+
         if ($request->filled('q')) {
-            $query->where(fn($q) => $q->where('title', 'like', "%{$request->q}%")->orWhere('author', 'like', "%{$request->q}%"));
+            $query->where(fn($q) => $q->where('title', 'like', "%{$request->q}%")
+                ->orWhere('author', 'like', "%{$request->q}%"));
         }
-        
+
         if ($request->filled('year')) {
             $query->where('year', $request->year);
         }
@@ -123,7 +124,7 @@ class FrontPageController extends Controller
                 return $item->published_at ?? $item->created_at;
             });
 
-            // Convert to manual length aware paginator if needed, 
+            // Convert to manual length aware paginator if needed,
             // but for simplicity let's just use a large get() or simple paginate
             // Let's stick to Post paginate for now or just increase it to 30 and use simple collection
             $results = new \Illuminate\Pagination\LengthAwarePaginator(
@@ -136,5 +137,23 @@ class FrontPageController extends Controller
         }
 
         return view('frontend.search', compact('q', 'results'));
+    }
+
+    public function accreditation(Request $request){
+
+        $page = \App\Models\Page::where('slug', 'pengabdian')->first();
+        $query = ResearchService::where('type', 'community_service')->where('is_active', true);
+
+        if ($request->filled('q')) {
+            $query->where(fn($q) => $q->where('title', 'like', "%{$request->q}%")
+                ->orWhere('author', 'like', "%{$request->q}%"));
+        }
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $posts = $query->orderBy('year', 'desc')->latest()->paginate(20)->withQueryString();
+        return view('frontend.accreditation', compact('posts', 'page'));
     }
 }

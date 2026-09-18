@@ -5,10 +5,10 @@
             {{-- Brand & About --}}
             <div class="col-lg-4 notranslate" translate="no">
                 <div class="d-flex align-items-center gap-3 mb-3">
-                    @php 
+                    @php
                         $logoWhite = \App\Models\Setting::get('site_logo_white');
                         $logoMain = \App\Models\Setting::get('site_logo');
-                        
+
                         // Use white logo if configured, fallback to main logo
                         if (!$logoWhite) {
                             $logo = $logoMain;
@@ -38,10 +38,10 @@
                 <p class="small mb-3 lh-lg" style="color:#94a3b8">{{ \App\Models\Setting::get('site_sub_name', '') }}</p>
                 <div class="d-flex gap-2">
                     @foreach([
-                        'facebook' => 'fab fa-facebook-f', 
-                        'instagram' => 'fab fa-instagram', 
-                        'twitter' => 'fab fa-x-twitter', 
-                        'youtube' => 'fab fa-youtube', 
+                        'facebook' => 'fab fa-facebook-f',
+                        'instagram' => 'fab fa-instagram',
+                        'twitter' => 'fab fa-x-twitter',
+                        'youtube' => 'fab fa-youtube',
                         'linkedin' => 'fab fa-linkedin-in',
                         'tiktok' => 'fab fa-tiktok',
                         'whatsapp' => 'fab fa-whatsapp'
@@ -53,6 +53,9 @@
                             </a>
                         @endif
                     @endforeach
+                </div >
+                <div class="d-flex mt-4 rounded shadow-sm align-items-center justify-content-center" style=" overflow: hidden;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.437239612994!2d96.19483467473535!3d4.134057995839733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x303ec375a6c3a64b%3A0x8348ef5066ea3415!2sSTAIN%20Teungku%20Dirundeng%20Meulaboh!5e0!3m2!1sid!2sid!4v1786718919103!5m2!1sid!2sid" width="500" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
             </div>
 

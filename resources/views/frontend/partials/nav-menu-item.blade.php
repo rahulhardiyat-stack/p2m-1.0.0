@@ -37,7 +37,7 @@
             <a class="dropdown-item elegant-dropdown-item py-2 dropdown-toggle {{ $isActive ? 'active' : '' }} {{ $item->css_class }}"
                href="#"
                id="menuDrop{{ $item->id }}"
-               data-bs-toggle="dropdown"
+               data-menu-submenu-toggle="true"
                aria-expanded="false">
                 @if($item->icon) <i class="{{ $item->icon }} me-2 text-primary"></i> @endif
                 {{ $item->label }}

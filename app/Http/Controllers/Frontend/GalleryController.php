@@ -10,7 +10,10 @@ class GalleryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Gallery::forLocale()->where('is_active', true);
+        $locale = app()->getLocale();
+        $fallbackLocale = 'id';
+
+        $query = Gallery::where('is_active', true);
 
         if ($request->type === 'video') {
             $query->where('type', 'video');
@@ -18,6 +21,19 @@ class GalleryController extends Controller
         elseif ($request->type === 'photo') {
             $query->where('type', 'photo');
         }
+
+        $hasLocaleItems = (clone $query)->where('language', $locale)->exists();
+
+        $query->where(function ($q) use ($locale, $fallbackLocale, $hasLocaleItems) {
+            if ($hasLocaleItems) {
+                $q->where('language', $locale);
+                return;
+            }
+
+            $q->where('language', $fallbackLocale)
+                ->orWhereNull('language')
+                ->orWhere('language', '');
+        });
 
         $items = $query->orderBy('order')->latest()->paginate(16)->withQueryString();
 

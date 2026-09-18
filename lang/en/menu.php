@@ -61,8 +61,9 @@ return [
     'cta_subtitle' => 'Achieve a bright future with our Department. Register yourself now!',
     'registration_info' => 'Registration Info',
     'see_curriculum' => 'View Curriculum',
-    'announcement' => 'Announcement',
+    'announcement' => 'Indeks Kepuasan',
     'testimonial' => 'Testimonial',
+    'structure_organization' => 'Structure & Organization',
 
     // Chatbot
     'chatbot_title' => 'Ask Department Info',
