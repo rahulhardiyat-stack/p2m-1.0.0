@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Accreditation;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +23,8 @@ class DatabaseSeeder extends Seeder
             PartnerSeeder::class,
             SponsorSeeder::class,
             MenuSeeder::class,
+            AccreditationSeeder::class,
+            FacultySeeder::class,
         ]);
     }
 }

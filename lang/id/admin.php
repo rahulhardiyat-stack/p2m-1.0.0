@@ -309,6 +309,23 @@ return [
     'type_research' => 'Penelitian',
     'type_community_service' => 'Pengabdian Masyarakat',
 
+    //Accreditation
+    'accreditation' => 'Akreditasi',
+    'add_accreditation' => 'Tambah Akreditasi',
+    'accreditation_institution' => 'Institusi',
+    'accreditation_study_program' => 'Program Studi',
+    'accreditation_sk_number' => 'No SK',
+    'accreditation_type' => 'Tipe',
+    'accreditation_created_at' => 'Tanggal',
+    'accreditation_expired_date' => 'Kadaluarsa',
+    'accreditation_status' => 'Status',
+    'accreditatioin_action' => 'Aksi',
+    'accreditation_edit' => 'Edit',
+    'no_accreditation' => 'Tidak ada akreditasi ditemukan.',
+    'accreditation_file' => 'File Akreditasi',
+    'accreditation_faculty' => 'Fakultas',
+    'search_accreditation' => 'cari akreditasi...',
+
     // FAQs
     'faqs' => 'FAQs',
     'add_faq' => 'Tambah FAQ',

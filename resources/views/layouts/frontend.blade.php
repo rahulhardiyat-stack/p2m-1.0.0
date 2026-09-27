@@ -42,6 +42,10 @@
     {{-- Foundation Styles --}}
     <link rel="stylesheet" href="{{ asset('css/frontend.css') }}?v={{ time() }}">
 
+    {{--flatpickr--}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+
     {{-- Theme Overrides --}}
     @php
         $siteTheme = \App\Models\Setting::get('site_theme', 'aurora-glass-balakutak');
@@ -94,6 +98,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    {{-- Dibutuhkan untuk Date --}}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+
     <script>
         // AOS Init
         AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
@@ -128,7 +136,7 @@
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
-                pageLanguage: 'id', 
+                pageLanguage: 'id',
                 includedLanguages: 'id,en,ar',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false

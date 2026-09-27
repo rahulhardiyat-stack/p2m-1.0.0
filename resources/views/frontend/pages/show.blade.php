@@ -43,6 +43,8 @@
                     @endif
                 </div>
 
+
+                {{-- Tampilan Dokumen--}}
                 @if(isset($documents))
                     <section class="py-5 bg-white">
                         <div class="container">
@@ -63,8 +65,8 @@
                                     <thead class="bg-dark bg-gradient text-white">
                                     <tr>
                                         <th class="px-4 py-4" style="width: 45%;">Nama Dokumen</th>
-                                        <th class="py-4">Info</th>
-                                        <th class="px-4 py-4 text-end">Aksi</th>
+                                        <th class="py-4 px-4">Info</th>
+                                        <th class="px-4 py-4 text-center">Aksi</th>
                                     </tr>
                                     </thead>
                                     <tbody class="bg-white">

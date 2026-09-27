@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccreditationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PostController as FrontPostController;
@@ -91,6 +92,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', \App\Htt
     Route::get('research-services/template', [ResearchServiceController::class , 'downloadTemplate'])->name('research-services.template');
     Route::get('research-services/export', [ResearchServiceController::class , 'export'])->name('research-services.export');
     Route::resource('research-services', ResearchServiceController::class);
+
+    //accreditations
+    Route::resource('accreditations', AccreditationController::class);
 
     // Documents
     Route::resource('documents', DocumentController::class);
